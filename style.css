@@ -1,3 +1,8 @@
+:root {
+	--color-red: #ed1c24;
+	--color-white: #fff;
+}
+
 * {
 	margin: 0;
 	padding: 0;
@@ -10,68 +15,13 @@ body {
 	align-items: center;
 	width: 100vw;
 	height: 100vh;
-	background-size: cover;
-	background-size: 100% 200%;
 	position: relative;
 	overflow: hidden;
-}
-
-.app {
-	width: 200%;
-	height: 100%;
-	left: 0;
-	top: 0;
-	position: absolute;
-}
-
-.active {
-	animation: animation 10s linear infinite;
-}
-
-.stop {
-	animation-play-state: paused;
-}
-
-/* .app.active .scene1,
-.scene2,
-.scene3 {
-	z-index: 2;
-}
-
-.scene1,
-.scene2,
-.scene3 {
-	width: 50%;
-	height: 100%;
-	position: absolute;
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-size: cover;
-}
-
-.scene1 {
-	left: 0;
-}
-
-.scene2 {
-	left: 50%;
-}
-
-.scene3 {
-	left: 66%;
-} */
-
-canvas {
-	position: absolute;
-}
-
-@keyframes animation {
-	0% {
-		transform: translateX(0);
-	}
-	100% {
-		transform: translateX(-50%);
-	}
+	font-family: 'Roboto', sans-serif;
+	background: url('./PNG/game_background_2/game_background_2.png') center center
+		no-repeat;
+	background-size: 110% 110%;
+	position: relative;
 }
 
 .footer {
@@ -85,6 +35,44 @@ canvas {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
+	color: #fff;
 	padding: 0 40px;
+	text-shadow: var(--color-red) 2px 0 5px;
+}
+
+.form {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	max-width: 400px;
+	height: 200px;
+	background: rgba(255, 255, 255, 0.9);
+	border-radius: 10px;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 10px;
+}
+
+.username-field {
+	padding: 10px 20px;
+	font-size: 1.5rem;
+}
+
+.button {
+	border: none;
+	padding: 10px 20px;
+	font-size: 1.5rem;
+	color: var(--color-white);
+	background-color: var(--color-red);
+	cursor: pointer;
+	transition: box-shadow 0.1s ease;
+}
+
+.button:hover {
+	box-shadow: 2px 0px 5px #444;
 }

@@ -1,0 +1,89 @@
+{
+	"frames": {
+		"1.png": {
+			"frame": { "x": 0, "y": 0, "w": 30, "h": 32 },
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": { "x": 0, "y": 0, "w": 30, "h": 32 },
+			"sourceSize": { "w": 30, "h": 32 },
+			"anchor": { "x": 0.5, "y": 0.5 }
+		},
+		"2.png": {
+			"frame": { "x": 30, "y": 0, "w": 30, "h": 32 },
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": { "x": 0, "y": 0, "w": 30, "h": 32 },
+			"sourceSize": { "w": 30, "h": 32 },
+			"anchor": { "x": 0.5, "y": 0.5 }
+		},
+		"3.png": {
+			"frame": { "x": 60, "y": 0, "w": 26, "h": 32 },
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": { "x": 0, "y": 0, "w": 26, "h": 32 },
+			"sourceSize": { "w": 26, "h": 32 },
+			"anchor": { "x": 0.5, "y": 0.5 }
+		},
+		"4.png": {
+			"frame": { "x": 86, "y": 0, "w": 22, "h": 32 },
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": { "x": 0, "y": 0, "w": 22, "h": 32 },
+			"sourceSize": { "w": 22, "h": 32 },
+			"anchor": { "x": 0.5, "y": 0.5 }
+		},
+		"5.png": {
+			"frame": { "x": 108, "y": 0, "w": 30, "h": 32 },
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": { "x": 0, "y": 0, "w": 30, "h": 32 },
+			"sourceSize": { "w": 30, "h": 32 },
+			"anchor": { "x": 0.5, "y": 0.5 }
+		},
+		"6.png": {
+			"frame": { "x": 138, "y": 0, "w": 22, "h": 32 },
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": { "x": 0, "y": 0, "w": 22, "h": 32 },
+			"sourceSize": { "w": 22, "h": 32 },
+			"anchor": { "x": 0.5, "y": 0.5 }
+		},
+		"7.png": {
+			"frame": { "x": 160, "y": 0, "w": 26, "h": 32 },
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": { "x": 0, "y": 0, "w": 26, "h": 32 },
+			"sourceSize": { "w": 26, "h": 32 },
+			"anchor": { "x": 0.5, "y": 0.5 }
+		},
+		"8.png": {
+			"frame": { "x": 186, "y": 0, "w": 30, "h": 32 },
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": { "x": 0, "y": 0, "w": 30, "h": 32 },
+			"sourceSize": { "w": 30, "h": 32 },
+			"anchor": { "x": 0.5, "y": 0.5 }
+		}
+	},
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "1.1",
+		"image": "../assets/coins.png",
+		"format": "RGBA8888",
+		"size": { "w": 216, "h": 32 },
+		"scale": "1",
+		"smartupdate": "$TexturePacker:SmartUpdate:8012ce23192b4dec1759d9d8dd2da98a:9cdce6749981981ba04362c3955fe46b:51f960d29b2cb2ae0010061540f14fb7$"
+	},
+	"animations": {
+		"rotate": [
+			"1.png",
+			"2.png",
+			"3.png",
+			"4.png",
+			"5.png",
+			"6.png",
+			"7.png",
+			"8.png"
+		]
+	}
+}
