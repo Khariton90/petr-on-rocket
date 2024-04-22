@@ -23,13 +23,34 @@ export default class GameBoard {
 	#level = null
 	#speed = 0.5
 	#obstacleList = []
-
 	#assets
+
+	#state = {
+		levels: [
+			{
+				count: 1,
+				speed: 7,
+			},
+			{
+				count: 2,
+				speed: 7.5,
+			},
+			{
+				count: 3,
+				speed: 8,
+			},
+		],
+		defaultLevel: 0,
+	}
 
 	constructor(app) {
 		this.#app = app
 		this.#app.width = this.#screenWidth
 		this.#app.height = this.#screenHeight
+	}
+
+	get state() {
+		return this.#state
 	}
 
 	get status() {
@@ -48,11 +69,11 @@ export default class GameBoard {
 		this.#score = value
 	}
 
-	init = async (assets, firstLevelTextures, coinTexture) => {
+	init = async assets => {
 		this.#assets = assets
 
-		this.#flour = new Floor()
-		this.#roof = new Floor()
+		this.#flour = new Floor(this.#assets)
+		this.#roof = new Floor(this.#assets)
 
 		this.#scoreBoard = new ScoreBoard(this.score, this.#assets)
 
@@ -68,7 +89,8 @@ export default class GameBoard {
 				width: this.#screenWidth,
 				height: this.#screenHeight,
 			},
-			this.#assets
+			this.#assets,
+			this.state
 		)
 
 		const obstacleFactory = new ObstacleFactory(
@@ -135,6 +157,7 @@ export default class GameBoard {
 		}
 
 		this.#level.update(this.#speed)
+		this.#flour.update()
 		this.#person.update()
 
 		this.#obstacleList.forEach(container => container.update(this.#person.x))
@@ -183,10 +206,12 @@ export default class GameBoard {
 		this.#person.setFly()
 		this.#dialog.startGame(this.#status)
 		this.#status = GameStatus.START
+		this.#level.setVisible(this.#state.defaultLevel)
 	}
 
 	#startAgain() {
 		this.#setInitial()
 		this.#start()
+		this.#level.setVisible()
 	}
 }

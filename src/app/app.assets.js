@@ -11,17 +11,18 @@ import preview from '../../images/petr_1.png'
 import petr from '../../images/petr_1.png'
 import boost from '../../images/petr.png'
 import boom from '../../images/boom-250.png'
-import coin from '../../PNG/pet2.svg'
+
 import obstacle from '../../PNG/zortch_unused2/tile233-110.png'
 import coinJson from '../../assets/coins.json'
 import image from '../../assets/coins.png'
+import floorImage from '../../PNG/zortch_unused2/tile195-40.png'
 
 export class AppAssets {
 	#dialog = []
 	#person = []
-	#coin = []
 	#obstacle = []
 	#level1 = []
+	floor = []
 
 	#spritesheet
 
@@ -41,11 +42,15 @@ export class AppAssets {
 			first_6,
 			first_7
 		)
+		this.floor = await this.#loadAssets(floorImage)
 		this.#person = await this.#loadAssets(petr, boom, boost, obstacle)
 		this.#dialog = await this.#loadAssets(preview)
-		this.#coin = await this.#loadAssets(coin)
 		this.#obstacle = await this.#loadAssets(obstacle)
 	}
+
+	// get floor() {
+	// 	return this.#floor
+	// }
 
 	get spritesheet() {
 		return this.#spritesheet
@@ -57,10 +62,6 @@ export class AppAssets {
 
 	get person() {
 		return this.#person
-	}
-
-	get coin() {
-		return this.#coin
 	}
 
 	get obstacle() {

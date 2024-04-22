@@ -36,9 +36,9 @@ export class Dialog extends Container {
 			},
 		})
 
-		this.#title.width = 360
+		this.#title.width = 300
 
-		this.#title.x = (this.#form.width - this.#title.width) / 2
+		this.#title.x = 50
 		this.#title.y = 20
 
 		let button = new Container()
@@ -87,7 +87,7 @@ export class Dialog extends Container {
 	endGame() {
 		this.#form.visible = true
 		this.#title.text = 'ПЕТЯ НА РАКЕТЕ'
-		this.#title.x = (this.#form.width - this.#title.width) / 2
+		this.#title.x = 50
 	}
 
 	pause() {

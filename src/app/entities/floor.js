@@ -1,14 +1,29 @@
-import { Container, Graphics, Sprite, Texture } from 'pixi.js'
+import { Container, TilingSprite } from 'pixi.js'
+import { SPEED } from '../app.constants'
 
 export default class Floor extends Container {
 	#height = 40
 
-	constructor() {
+	#assets = null
+	$texture = null
+
+	constructor(assets) {
 		super()
 
-		const rectangle = new Graphics()
-			.rect(0, 0, window.innerWidth, this.#height)
-			.fill('transparent')
-		this.addChild(rectangle)
+		this.#assets = assets
+
+		this.$texture = this.#setTexture()
+		this.addChild(this.$texture)
+	}
+
+	update() {
+		this.$texture.tilePosition.x -= SPEED
+	}
+
+	#setTexture() {
+		const floor = new TilingSprite(this.#assets.floor[0])
+		floor.width = window.innerWidth
+		floor.height = this.#height
+		return floor
 	}
 }

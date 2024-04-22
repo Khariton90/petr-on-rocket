@@ -15,27 +15,16 @@ export default class ObstacleContainer extends Container {
 	#top
 	#bottom
 	#coin
-
 	#positionX
-
-	#coinTexture
-
 	#scoreBoard
-
 	#isPointed = false
-
-	#position = 0
-
 	#obstacleTexture
 	#assets
-
-	#coinAssets
 
 	constructor(size, position, assets, scoreBoard) {
 		super()
 		this.#assets = assets
 		this.#obstacleTexture = this.#assets.obstacle[0]
-		this.#coinAssets = this.#assets.coin[0]
 		this.#scoreBoard = scoreBoard
 		this.#container = new Graphics()
 			.rect(0, 0, size.width, size.height)

@@ -35,13 +35,13 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	color: #fff;
+	color: #cecece;
 	padding: 0 40px;
-	text-shadow: var(--color-red) 2px 0 5px;
 }
 
 .form {
 	position: absolute;
+
 	left: 0;
 	right: 0;
 	top: 0;

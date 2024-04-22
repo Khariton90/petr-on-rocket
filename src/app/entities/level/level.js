@@ -1,4 +1,4 @@
-import { Container, TilingSprite } from 'pixi.js'
+import { Container, Text, TilingSprite } from 'pixi.js'
 
 export class GameLevel extends Container {
 	#bgList = []
@@ -11,15 +11,59 @@ export class GameLevel extends Container {
 
 	#assets
 
-	constructor(size, assets) {
+	#levelText = null
+
+	#opacity = 0
+
+	#level
+
+	constructor(size, assets, level) {
 		super()
+		this.#level = level
 		this.#size = size
 		this.#assets = assets
 		this.createBg(this.#size, this.#assets.level1)
+		this.#levelText = new Text({
+			text: `Уровень ${this.#level.levels[this.#level.defaultLevel].count}`,
+			style: {
+				fill: `rgba(255,255,255, ${this.#opacity})`,
+			},
+		})
+
+		this.#levelText.width = 200
+
+		this.#levelText.x = (this.#size.width - this.#levelText.width) / 2
+		this.#levelText.y = 100
+
+		this.#speed += this.#level.levels[this.#level.defaultLevel].count / 10
+
+		this.addChild(this.#levelText)
+	}
+
+	setVisible(level) {
+		this.#opacity = 1
+		this.#levelText.style.fill = `rgba(255,255,255, ${this.#opacity})`
+
+		if (level === this.#level.defaultLevel) {
+			return
+		}
+
+		this.#level.levels[level].count
+		this.#speed =
+			this.#speed + this.#level.levels[this.#level.defaultLevel].count / 10
+	}
+
+	setInvisible() {
+		this.#opacity = 0
+		this.#levelText.style.fill = `rgba(255,255,255, ${this.#opacity})`
 	}
 
 	update() {
-		this.#bgList[0].tilePosition.x -= 1 * this.#speed
+		if (this.#opacity > 0) {
+			this.#levelText.style.fill = `rgba(255,255,255, ${this.#opacity})`
+			this.#opacity -= 0.008
+		}
+
 		this.#bgList[1].tilePosition.x -= 1.5 * this.#speed
 		this.#bgList[2].tilePosition.x -= 2 * this.#speed
 		this.#bgList[3].tilePosition.x -= 2.5 * this.#speed
@@ -39,7 +83,6 @@ export class GameLevel extends Container {
 	}
 
 	createBg({ width, height }, assets) {
-		const level = this.#state.level
 		this.#bgList = assets.map(item => {
 			const tile = new TilingSprite({
 				texture: item,
