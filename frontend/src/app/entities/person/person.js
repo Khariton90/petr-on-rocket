@@ -1,5 +1,5 @@
 import { Assets, Container, Loader, Sprite } from 'pixi.js'
-import { PersonView } from './person.view'
+import { PersonView } from './person.view.js'
 import { PersonPositon } from '../../app.constants.js'
 import { Rocket } from '../rocket/rocket.js'
 import { Human } from '../human/human.js'
