@@ -101,7 +101,7 @@ export default class GameBoard {
 
 		this.#app.stage.addChild(this.#level)
 
-		this.#obstacleList = obstaclesPosX.map(position =>
+		this.#obstacleList = obstaclesPosX().map(position =>
 			obstacleFactory.createObstacle(position)
 		)
 
@@ -113,16 +113,21 @@ export default class GameBoard {
 		this.#app.stage.addChild(this.#dialog)
 		this.#person.x = PersonPositon.x
 		this.#person.y = PersonPositon.y
+
+		this.#dialog.on('pointerdown', event => {
+			if (this.#status !== GameStatus.START) {
+				this.assignGamePlay()
+			}
+		})
+		this.#dialog.eventMode = 'static'
 	}
 
 	update() {
-		if (this.#assets) {
-			if (this.#status !== GameStatus.START) {
-				return
-			}
-
-			this.#setGameProcess()
+		if (this.#status !== GameStatus.START) {
+			return
 		}
+
+		this.#setGameProcess()
 	}
 
 	assignGamePlay() {
@@ -160,7 +165,13 @@ export default class GameBoard {
 		this.#flour.update()
 		this.#person.update()
 
-		this.#obstacleList.forEach(container => container.update(this.#person.x))
+		this.#obstacleList.forEach((container, index, arr) => {
+			////////////////////////////TODO
+			if (arr[index].x + arr[index].width > 0) {
+				return container.update(this.#person.x)
+			}
+			return
+		})
 
 		if (testForAABB(this.#person, this.#flour)) {
 			this.#person.y = prevPosition.y
@@ -177,6 +188,13 @@ export default class GameBoard {
 			this.#setGameOver(this.#person.getHuman(), obstacle.getTop())
 			this.#setGameOver(this.#person.getHuman(), obstacle.getBottom())
 		})
+
+		////////////////////////////////////////////////////TODO
+		const score = this.#scoreBoard.getScore()
+
+		if (score === 5) {
+			this.assignGamePlay()
+		}
 	}
 
 	#setGameOver(person, obstacle) {

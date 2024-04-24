@@ -31,4 +31,25 @@ export const GameStatus = {
 	END: 'END',
 }
 
-export const obstaclesPosX = [0, 500, 1000, 1500]
+export const obstaclesPosX = () => {
+	const list = []
+
+	for (let i = 0; i < 5; i++) {
+		if (!list.length) {
+			list.push(0)
+		} else {
+			const value = list[i - 1] + 500
+
+			list.push(value)
+		}
+	}
+
+	return list
+}
+
+export const FormEnum = {
+	LOGIN: 'login',
+	REGISTER: 'register',
+	PROFILE: 'profile',
+	LOGOUT: 'logout',
+}

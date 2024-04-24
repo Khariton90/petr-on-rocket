@@ -48,10 +48,6 @@ export class AppAssets {
 		this.#obstacle = await this.#loadAssets(obstacle)
 	}
 
-	// get floor() {
-	// 	return this.#floor
-	// }
-
 	get spritesheet() {
 		return this.#spritesheet
 	}

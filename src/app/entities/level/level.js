@@ -24,7 +24,7 @@ export class GameLevel extends Container {
 		this.#assets = assets
 		this.createBg(this.#size, this.#assets.level1)
 		this.#levelText = new Text({
-			text: `Уровень ${this.#level.levels[this.#level.defaultLevel].count}`,
+			text: `Уровень 1`,
 			style: {
 				fill: `rgba(255,255,255, ${this.#opacity})`,
 			},
@@ -44,13 +44,7 @@ export class GameLevel extends Container {
 		this.#opacity = 1
 		this.#levelText.style.fill = `rgba(255,255,255, ${this.#opacity})`
 
-		if (level === this.#level.defaultLevel) {
-			return
-		}
-
-		this.#level.levels[level].count
-		this.#speed =
-			this.#speed + this.#level.levels[this.#level.defaultLevel].count / 10
+		this.#speed = 0.5
 	}
 
 	setInvisible() {
@@ -68,8 +62,8 @@ export class GameLevel extends Container {
 		this.#bgList[2].tilePosition.x -= 2 * this.#speed
 		this.#bgList[3].tilePosition.x -= 2.5 * this.#speed
 		this.#bgList[4].tilePosition.x -= 3 * this.#speed
-		this.#bgList[5].tilePosition.x -= 3.5 * this.#speed
-		this.#bgList[6].tilePosition.x -= 4 * this.#speed
+		// this.#bgList[5].tilePosition.x -= 3.5 * this.#speed
+		// this.#bgList[6].tilePosition.x -= 4 * this.#speed
 	}
 
 	async change(level) {
@@ -83,7 +77,7 @@ export class GameLevel extends Container {
 	}
 
 	createBg({ width, height }, assets) {
-		this.#bgList = assets.map(item => {
+		this.#bgList = assets.slice(0, 5).map(item => {
 			const tile = new TilingSprite({
 				texture: item,
 				width,

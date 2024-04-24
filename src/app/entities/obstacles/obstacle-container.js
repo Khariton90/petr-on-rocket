@@ -95,13 +95,11 @@ export default class ObstacleContainer extends Container {
 		}
 
 		if (this.x + this.width < 0) {
-			const positionY = getPipeSizePair(height)
-			this.#top.y = positionY
-			this.#bottom.y = this.#top.y + this.#container.height + INTERVAL
-
-			this.x = width
-
-			this.createCoin()
+			// const positionY = getPipeSizePair(height)
+			// this.#top.y = positionY
+			// this.#bottom.y = this.#top.y + this.#container.height + INTERVAL
+			// this.x = width
+			// this.createCoin()
 		}
 
 		this.x -= SPEED
@@ -120,5 +118,9 @@ export default class ObstacleContainer extends Container {
 
 	getBottom() {
 		return this.#bottom
+	}
+
+	delete() {
+		this.removeChild(this.#container)
 	}
 }
