@@ -10,7 +10,6 @@ export class App {
 	#api
 	#root
 	#primaryForm
-
 	#state = {
 		user: null,
 	}
@@ -26,19 +25,16 @@ export class App {
 		await this.#primaryForm.setStatictic()
 		if (!player) {
 			this.#primaryForm.init(FormEnum.LOGIN, null, this.#render)
-
 			return
 		}
 
 		const data = await this.#api.getUser(player)
-
 		if (!data) {
 			deleteAccount()
 			return
 		}
 
 		this.#state.user = data
-
 		this.#primaryForm.init(FormEnum.PROFILE, data, this.#render)
 	}
 
@@ -47,14 +43,11 @@ export class App {
 		await app.init({ backgroundAlpha: 0, resizeTo: window })
 		const assets = new GameBoardAssets()
 		await assets.init()
-		const gameBoard = new GameBoard(app, this.#state.user)
+		const gameBoard = new GameBoard(app, this.#state, this.#api)
 		await gameBoard.init(assets)
-
 		const rootController = new Controller(gameBoard)
-
 		app.ticker.add(gameBoard.update, gameBoard)
 		document.body.appendChild(app.canvas)
-
 		document.addEventListener('keydown', evt => rootController.onKeyDown(evt))
 		document.addEventListener('keyup', evt => rootController.onKeyUp(evt))
 	}

@@ -87,4 +87,17 @@ export class ApiServices {
 			console.error(error.message)
 		}
 	}
+
+	async updateUser(dto) {
+		try {
+			const response = await fetch(
+				`${this.#baseUrl}/users/update`,
+				this.#options(Method.POST, dto)
+			)
+			const updatedUser = await response.json()
+			return updatedUser
+		} catch (error) {
+			console.error(error.message)
+		}
+	}
 }
