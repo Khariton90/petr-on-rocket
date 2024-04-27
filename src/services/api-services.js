@@ -1,4 +1,4 @@
-import { getAccount, setAccount } from './local-storage'
+import { deleteAccount, getAccount, setAccount } from './local-storage'
 
 const BASE_URL = 'http://localhost:3000/api'
 
@@ -71,7 +71,18 @@ export class ApiServices {
 		try {
 			const response = await fetch(`${this.#baseUrl}/users/find/${id}`)
 			const user = await response.json()
+
 			return user
+		} catch (error) {
+			console.error(error.message)
+		}
+	}
+
+	async getStatictic() {
+		try {
+			const response = await fetch(`${this.#baseUrl}/users/statistic`)
+			const data = await response.json()
+			return data
 		} catch (error) {
 			console.error(error.message)
 		}

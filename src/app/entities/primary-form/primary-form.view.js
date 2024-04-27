@@ -60,8 +60,22 @@ const createRegisterFormTemplate = () => `
 				<a href="/sign-in" data-link="login" class="login-link form-link">Перейти к логину</a>
 			</form>`
 
-const createProfileForm = data =>
-	`
+const createProfileForm = (data, statistic) => {
+	const list = statistic.length
+		? `${statistic
+				.map(
+					item => `<li class="list-item">
+								<div class="list-item__body">
+									<span class="list-item__username">${item.nickname}</span>
+									<span class="list-item__level">${item.level}</span>
+									<span class="list-item__score">${item.points}</span>
+								</div>
+							</li>`
+				)
+				.join(' ')}`
+		: []
+
+	return `
 			<form class="form profile-form" autocomplete="off">
 				<fieldset class="form-tabs">
 					<label for="profile">
@@ -123,93 +137,27 @@ const createProfileForm = data =>
 						</div>
 
 						<ol class="form-body__list list">
-							<li class="list-item">
-								<div class="list-item__body">
-									<span class="list-item__username">Petr</span>
-									<span class="list-item__level">1</span>
-									<span class="list-item__score">150</span>
-								</div>
-							</li>
-							<li class="list-item">
-								<div class="list-item__body">
-									<span class="list-item__username">Petr</span>
-									<span class="list-item__level">1</span>
-									<span class="list-item__score">150</span>
-								</div>
-							</li>
-							<li class="list-item">
-								<div class="list-item__body">
-									<span class="list-item__username">Petr</span>
-									<span class="list-item__level">1</span>
-									<span class="list-item__score">150</span>
-								</div>
-							</li>
-							<li class="list-item">
-								<div class="list-item__body">
-									<span class="list-item__username">Petr</span>
-									<span class="list-item__level">1</span>
-									<span class="list-item__score">150</span>
-								</div>
-							</li>
-							<li class="list-item">
-								<div class="list-item__body">
-									<span class="list-item__username">Petr</span>
-									<span class="list-item__level">1</span>
-									<span class="list-item__score">150</span>
-								</div>
-							</li>
-							<li class="list-item">
-								<div class="list-item__body">
-									<span class="list-item__username">Petr</span>
-									<span class="list-item__level">1</span>
-									<span class="list-item__score">150</span>
-								</div>
-							</li>
-							<li class="list-item">
-								<div class="list-item__body">
-									<span class="list-item__username">Petr</span>
-									<span class="list-item__level">1</span>
-									<span class="list-item__score">150</span>
-								</div>
-							</li>
-							<li class="list-item">
-								<div class="list-item__body">
-									<span class="list-item__username">Petr</span>
-									<span class="list-item__level">1</span>
-									<span class="list-item__score">150</span>
-								</div>
-							</li>
-							<li class="list-item">
-								<div class="list-item__body">
-									<span class="list-item__username">Petr</span>
-									<span class="list-item__level">1</span>
-									<span class="list-item__score">150</span>
-								</div>
-							</li>
-							<li class="list-item">
-								<div class="list-item__body">
-									<span class="list-item__username">Petr</span>
-									<span class="list-item__level">1</span>
-									<span class="list-item__score">150</span>
-								</div>
-							</li>
+							${list}
 						</ol>
 					</div>
 				</fieldset>
 
 				<a href="/logout" data-link="logout" class="form-link">Выход</a>
 			</form>`
+}
 
 export class PrimaryFormView {
+	#statistic = []
 	#state = {
 		[FormEnum.LOGIN]: data => createLoginFormTemplate(data),
-		[FormEnum.PROFILE]: data => createProfileForm(data),
+		[FormEnum.PROFILE]: data => createProfileForm(data, this.#statistic),
 		[FormEnum.REGISTER]: data => createRegisterFormTemplate(data),
 		[FormEnum.LOGOUT]: data => createLoginFormTemplate(data),
 	}
 	constructor() {}
 
-	setTemplate(value, data) {
+	setTemplate(value, data, statistic) {
+		this.#statistic = statistic
 		return this.#state[value](data)
 	}
 }

@@ -13,24 +13,24 @@ export class ScoreBoard extends Container {
 
 		this.#score = score
 		this.#scoreBoard = new Graphics()
-			.rect(0, 0, 260, 80)
-			.fill('rgba(255,255,255, 0.5)')
+			.rect(0, 0, 320, 80)
+			.fill('rgba(255,255,255, 0.3)')
 		this.#scoreBoard.y = 10
 		this.#scoreBoard.x = window.innerWidth - this.#scoreBoard.width - 10
 
 		this.#text = new Text({
-			text: `${this.#score} / 50`,
+			text: `${this.#score}  / 50`,
 			style: {
 				fontSize: 50,
 			},
 		})
 
-		this.#text.y = 25
-		this.#text.x = window.innerWidth - 180
+		this.#text.y = 24
+		this.#text.x = window.innerWidth - 230
 
 		this.#image = new Coin(
 			{
-				x: window.innerWidth - 240,
+				x: window.innerWidth - 290,
 				y: (this.#scoreBoard.height - 19) / 2,
 			},
 			texture,

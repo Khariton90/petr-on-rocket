@@ -6,13 +6,12 @@ export class PrimaryForm {
 	#node = null
 	#view = null
 	#api
-
 	#currentTemplate = FormEnum.LOGIN
-
 	#form = null
 	#link = null
-
-	#state = {}
+	#state = {
+		statistic: [],
+	}
 
 	constructor(node, api) {
 		this.#node = node
@@ -23,6 +22,50 @@ export class PrimaryForm {
 			[FormEnum.LOGIN]: async dto => await this.#api.authUser(dto),
 			[FormEnum.PROFILE]: () => this.start(),
 			[FormEnum.REGISTER]: async dto => await this.#api.createUser(dto),
+		}
+	}
+
+	#handleChangeForm(link) {
+		if (link === FormEnum.LOGOUT) {
+			deleteAccount()
+		}
+		this.init(link)
+	}
+
+	#onSuccess = dto => {
+		this.#form.reset()
+		this.#form.querySelector('.button').removeAttribute('disabled')
+		this.#state.statistic.push(dto)
+		this.init(FormEnum.PROFILE, dto)
+	}
+
+	#setFormDto() {
+		const button = this.#form.querySelector('.button')
+		button.setAttribute('disabled', true)
+
+		const dto = {}
+		for (const [key, value] of new FormData(this.#form).entries()) {
+			dto[key] = value.trim()
+		}
+
+		return dto
+	}
+
+	#onError() {
+		const button = this.#form.querySelector('.button')
+		this.#form.classList.add('error')
+		setTimeout(() => {
+			button.removeAttribute('disabled')
+			this.#form.classList.remove('error')
+		}, 2000)
+	}
+
+	setHandleChangeForm = evt => {
+		evt.preventDefault()
+
+		if (evt.target.dataset.link) {
+			const link = evt.target.dataset.link
+			this.#handleChangeForm(link)
 		}
 	}
 
@@ -41,7 +84,11 @@ export class PrimaryForm {
 			}
 		}
 
-		const template = this.#view.setTemplate(this.#currentTemplate, data)
+		const template = this.#view.setTemplate(
+			this.#currentTemplate,
+			data,
+			this.#state.statistic
+		)
 		this.#node.replaceChildren()
 		this.#node.innerHTML = template
 		this.#form = this.#node.querySelector('.form')
@@ -67,46 +114,7 @@ export class PrimaryForm {
 		this.#onSuccess(data)
 	}
 
-	#handleChangeForm(link) {
-		if (link === FormEnum.LOGOUT) {
-			deleteAccount()
-		}
-		this.init(link)
-	}
-
-	setHandleChangeForm = evt => {
-		evt.preventDefault()
-
-		if (evt.target.dataset.link) {
-			const link = evt.target.dataset.link
-			this.#handleChangeForm(link)
-		}
-	}
-
-	#onSuccess = dto => {
-		this.#form.reset()
-		this.#form.querySelector('.button').removeAttribute('disabled')
-		this.init(FormEnum.PROFILE, dto)
-	}
-
-	#setFormDto() {
-		const button = this.#form.querySelector('.button')
-		button.setAttribute('disabled', true)
-
-		const dto = {}
-		for (const [key, value] of new FormData(this.#form).entries()) {
-			dto[key] = value.trim()
-		}
-
-		return dto
-	}
-
-	#onError() {
-		const button = this.#form.querySelector('.button')
-		this.#form.classList.add('error')
-		setTimeout(() => {
-			button.removeAttribute('disabled')
-			this.#form.classList.remove('error')
-		}, 2000)
+	async setStatictic() {
+		this.#state.statistic = await this.#api.getStatictic()
 	}
 }

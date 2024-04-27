@@ -6,6 +6,7 @@ import { PersonPositon, GameStatus, obstaclesPosX } from './app.constants.js'
 import { Dialog } from './entities/dialog/dialog.js'
 import { ScoreBoard } from './entities/score-board/score-board.js'
 import { GameLevel } from './entities/level/level.js'
+import { Container, Graphics, Text } from 'pixi.js'
 
 export default class GameBoard {
 	#app = null
@@ -26,6 +27,7 @@ export default class GameBoard {
 	#assets
 
 	#state = {
+		user: null,
 		levels: [
 			{
 				count: 1,
@@ -43,10 +45,13 @@ export default class GameBoard {
 		defaultLevel: 0,
 	}
 
-	constructor(app) {
+	#profile = null
+
+	constructor(app, user) {
 		this.#app = app
 		this.#app.width = this.#screenWidth
 		this.#app.height = this.#screenHeight
+		this.#state.user = user
 	}
 
 	get state() {
@@ -70,6 +75,7 @@ export default class GameBoard {
 	}
 
 	init = async assets => {
+		console.log(this.#state.user)
 		this.#assets = assets
 
 		this.#flour = new Floor(this.#assets)
@@ -107,12 +113,6 @@ export default class GameBoard {
 
 		this.#person = new Person(this.#app.stage, this.#assets.person)
 		this.#dialog = new Dialog(this.#assets)
-		this.#app.stage.addChild(this.#flour)
-		this.#app.stage.addChild(this.#roof)
-		this.#app.stage.addChild(this.#scoreBoard)
-		this.#app.stage.addChild(this.#dialog)
-		this.#person.x = PersonPositon.x
-		this.#person.y = PersonPositon.y
 
 		this.#dialog.on('pointerdown', event => {
 			if (this.#status !== GameStatus.START) {
@@ -120,6 +120,43 @@ export default class GameBoard {
 			}
 		})
 		this.#dialog.eventMode = 'static'
+
+		this.#profile = new Container()
+		this.#profile.width = 200
+		this.#profile.height = 100
+		this.#profile.background = 'red'
+		this.#profile.x = 10
+		this.#profile.y = 10
+		let user = new Text({
+			text: `Профиль: ${this.#state.user.nickname}`,
+			style: {
+				fontSize: 14,
+				fill: 'gold',
+			},
+		})
+
+		let textId = new Text({
+			text: `ID: ${this.#state.user.id}`,
+			style: {
+				fontSize: 14,
+				fill: 'gold',
+			},
+		})
+
+		user.y = 0
+		textId.y = 20
+
+		this.#profile.addChild(user)
+		this.#profile.addChild(textId)
+
+		this.#app.stage.addChild(this.#flour)
+		this.#app.stage.addChild(this.#roof)
+		this.#app.stage.addChild(this.#scoreBoard)
+		this.#app.stage.addChild(this.#dialog)
+		this.#person.x = PersonPositon.x
+		this.#person.y = PersonPositon.y
+
+		this.#app.stage.addChild(this.#profile)
 	}
 
 	update() {
@@ -192,9 +229,9 @@ export default class GameBoard {
 		////////////////////////////////////////////////////TODO
 		const score = this.#scoreBoard.getScore()
 
-		if (score === 5) {
-			this.assignGamePlay()
-		}
+		// if (score === 5) {
+		// 	this.assignGamePlay()
+		// }
 	}
 
 	#setGameOver(person, obstacle) {

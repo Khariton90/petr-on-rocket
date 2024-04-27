@@ -33,10 +33,33 @@ body {
 	width: 100%;
 	background: rgba(11, 88, 50, 0.2);
 	display: flex;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
 	color: #cecece;
 	padding: 0 40px;
+	font-size: 12px;
+}
+
+.footer-count p {
+	position: relative;
+}
+
+.footer-count p::before {
+	content: ' ';
+	position: absolute;
+	left: -8px;
+	top: 4px;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+}
+
+.footer-count p:nth-child(1)::before {
+	background: tomato;
+}
+
+.footer-count p:nth-child(2)::before {
+	background: green;
 }
 
 .form {

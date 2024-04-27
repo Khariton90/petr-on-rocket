@@ -17,7 +17,7 @@ import coinJson from '../../assets/coins.json'
 import image from '../../assets/coins.png'
 import floorImage from '../../PNG/zortch_unused2/tile195-40.png'
 
-export class AppAssets {
+export class GameBoardAssets {
 	#dialog = []
 	#person = []
 	#obstacle = []

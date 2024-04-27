@@ -62,8 +62,8 @@ export class GameLevel extends Container {
 		this.#bgList[2].tilePosition.x -= 2 * this.#speed
 		this.#bgList[3].tilePosition.x -= 2.5 * this.#speed
 		this.#bgList[4].tilePosition.x -= 3 * this.#speed
-		// this.#bgList[5].tilePosition.x -= 3.5 * this.#speed
-		// this.#bgList[6].tilePosition.x -= 4 * this.#speed
+		this.#bgList[5].tilePosition.x -= 3.5 * this.#speed
+		this.#bgList[6].tilePosition.x -= 4.5 * this.#speed
 	}
 
 	async change(level) {
@@ -77,7 +77,7 @@ export class GameLevel extends Container {
 	}
 
 	createBg({ width, height }, assets) {
-		this.#bgList = assets.slice(0, 5).map(item => {
+		this.#bgList = assets.map(item => {
 			const tile = new TilingSprite({
 				texture: item,
 				width,

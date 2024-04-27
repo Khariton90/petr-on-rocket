@@ -34,12 +34,11 @@ export const GameStatus = {
 export const obstaclesPosX = () => {
 	const list = []
 
-	for (let i = 0; i < 5; i++) {
+	for (let i = 0; i < 50; i++) {
 		if (!list.length) {
 			list.push(0)
 		} else {
 			const value = list[i - 1] + 500
-
 			list.push(value)
 		}
 	}
