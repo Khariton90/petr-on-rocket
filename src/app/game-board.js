@@ -1,13 +1,16 @@
 import { testForAABB } from '../utils.js'
 import Floor from './entities/floor.js'
-import ObstacleFactory from './entities/obstacles/obstacle.factory.js'
 import Person from './entities/person/person.js'
-import { PersonPositon, GameStatus, obstaclesPosX } from './app.constants.js'
+import {
+	PersonPositon,
+	GameStatus,
+	obstacleCountList,
+} from './app.constants.js'
 import { Dialog } from './entities/dialog/dialog.js'
 import { ScoreBoard } from './entities/score-board/score-board.js'
 import { GameLevel } from './entities/level/level.js'
-import { Container, Text } from 'pixi.js'
 import { Profile } from './entities/profile/profile.js'
+import { Scene } from './entities/scene/scene.js'
 
 export default class GameBoard {
 	#app = null
@@ -16,39 +19,20 @@ export default class GameBoard {
 	#dialog = null
 	#scoreBoard = null
 	#roof = null
-
 	#screenWidth = window.innerWidth
 	#screenHeight = window.innerHeight
-
 	#status = GameStatus.UNKNOWN
 	#score = 0
 	#level = null
 	#speed = 0.5
-	#obstacleList = []
 	#assets
-
+	#profile = null
+	#api
+	#completed = false
+	#scene = null
 	#state = {
 		user: null,
-		levels: [
-			{
-				count: 1,
-				speed: 7,
-			},
-			{
-				count: 2,
-				speed: 7.5,
-			},
-			{
-				count: 3,
-				speed: 8,
-			},
-		],
-		defaultLevel: 0,
 	}
-
-	#profile = null
-
-	#api
 
 	constructor(app, state, api) {
 		this.#app = app
@@ -56,6 +40,7 @@ export default class GameBoard {
 		this.#app.height = this.#screenHeight
 		this.#state.user = state.user
 		this.#api = api
+		this.#profile = new Profile(this.#state.user)
 	}
 
 	get state() {
@@ -74,37 +59,42 @@ export default class GameBoard {
 		this.#score = value
 	}
 
-	init = async assets => {
+	init = async (assets, user) => {
 		this.#assets = assets
 		this.#flour = new Floor(this.#assets)
 		this.#roof = new Floor(this.#assets)
-		this.#scoreBoard = new ScoreBoard(this.score, this.#assets)
+		this.#scoreBoard = new ScoreBoard(
+			this.score,
+			this.#assets,
+			this.#state.user.level
+		)
 		this.#flour.x = 0
 		this.#flour.y = this.#screenHeight - this.#flour.height
+		this.#flour.width = this.#screenWidth
 		this.#roof.x = 0
 		this.#roof.y = 0
 		this.#roof.height = 0
 		this.#level = new GameLevel(
 			{
-				width: this.#screenWidth,
-				height: this.#screenHeight,
+				width: this.#app.width,
+				height: this.#app.height,
 			},
 			this.#assets,
 			this.state
 		)
 
-		const obstacleFactory = new ObstacleFactory(
+		this.#scene = new Scene(
+			{
+				width: this.#screenWidth,
+				height: this.#screenHeight,
+			},
 			this.#app,
 			this.#assets,
-			this.#scoreBoard
+			this.#scoreBoard,
+			this.#state
 		)
-
+		this.#scene.create()
 		this.#app.stage.addChild(this.#level)
-
-		this.#obstacleList = obstaclesPosX().map(position =>
-			obstacleFactory.createObstacle(position)
-		)
-
 		this.#person = new Person(this.#app.stage, this.#assets.person)
 		this.#dialog = new Dialog(this.#assets)
 
@@ -113,9 +103,10 @@ export default class GameBoard {
 				this.assignGamePlay()
 			}
 		})
-		this.#dialog.eventMode = 'static'
-		this.#profile = new Profile(this.#state.user)
 
+		this.#app.stage.addChild(this.#scene)
+		this.#dialog.eventMode = 'static'
+		this.#profile.init(user)
 		this.#app.stage.addChild(this.#flour)
 		this.#app.stage.addChild(this.#roof)
 		this.#app.stage.addChild(this.#scoreBoard)
@@ -126,10 +117,6 @@ export default class GameBoard {
 	}
 
 	update() {
-		if (this.#status !== GameStatus.START) {
-			return
-		}
-
 		this.#setGameProcess()
 	}
 
@@ -147,57 +134,86 @@ export default class GameBoard {
 			default:
 				this.#start()
 		}
-
 		return
 	}
 
 	#setInitial() {
 		this.#person.x = PersonPositon.x
+		this.#person.y = PersonPositon.y
 		this.#scoreBoard.setScore(0)
 		this.#scoreBoard.update()
-		this.#obstacleList.forEach(container => container.setInitial())
+		this.#scene.setInitial()
+		this.#person.setInitial()
+	}
+
+	async #setLevelComplete() {
+		this.#level.update(this.#speed)
+		this.#person.setCompleted()
+		this.#scene.update(this.#person)
+
+		if (this.#person.x >= this.#app.width) {
+			this.#dialog.endGame()
+			this.#status = GameStatus.END
+			this.#completed = false
+			const points = this.#scoreBoard.getScore()
+
+			const userPoints =
+				points > this.#state.user.points ? points : this.#state.user.points
+
+			this.#scoreBoard.setLevelCount(obstacleCountList[this.#state.user.level])
+			this.#scoreBoard.setLevelCount(obstacleCountList[this.#state.user.level])
+
+			this.#state.user.level += 1
+			const user = {
+				...this.#state.user,
+				points: userPoints,
+				level: this.#state.user.level,
+			}
+			this.#state.user = await this.#api.updateUser(user)
+			this.#profile.update(this.#state.user)
+			this.#level.updateText(this.#state.user.level)
+			this.#scene.setInitial()
+		}
 	}
 
 	#setGameProcess() {
-		const prevPosition = {
-			x: this.#person.x,
-			y: this.#person.y,
+		if (this.#status !== GameStatus.START) {
+			return
 		}
+
+		if (this.#completed) {
+			this.#setLevelComplete()
+			return
+		}
+
+		const obstacleList = this.#scene.obstacleList
 
 		this.#level.update(this.#speed)
 		this.#flour.update()
 		this.#person.update()
 
-		this.#obstacleList.forEach((container, index, arr) => {
-			////////////////////////////TODO
-			if (arr[index].x + arr[index].width > 0) {
-				return container.update(this.#person.x)
-			}
-			return
-		})
+		this.#scene.update(this.#person)
 
 		if (testForAABB(this.#person, this.#flour)) {
-			this.#person.y = prevPosition.y
+			this.#person.y = this.#person.prevPosition.y
 			this.#person.jump()
 		}
 
 		if (testForAABB(this.#person, this.#roof)) {
-			this.#person.y = prevPosition.y
+			this.#person.y = this.#person.prevPosition.y
 		}
 
-		this.#obstacleList.forEach(obstacle => {
+		obstacleList.forEach(obstacle => {
 			this.#setGameOver(this.#person.getRocket(), obstacle.getTop())
 			this.#setGameOver(this.#person.getRocket(), obstacle.getBottom())
 			this.#setGameOver(this.#person.getHuman(), obstacle.getTop())
 			this.#setGameOver(this.#person.getHuman(), obstacle.getBottom())
 		})
 
-		////////////////////////////////////////////////////TODO
-		const score = this.#scoreBoard.getScore()
-
-		// if (score === 5) {
-		// 	this.assignGamePlay()
-		// }
+		this.#score = this.#scoreBoard.getScore()
+		if (!obstacleList.length) {
+			this.#completed = true
+		}
 	}
 
 	async #setGameOver(person, obstacle) {
@@ -205,12 +221,10 @@ export default class GameBoard {
 			this.#person.setCrash()
 			this.#status = GameStatus.END
 			this.#dialog.endGame()
-
 			const points = this.#scoreBoard.getScore()
-
 			const user = {
 				...this.#state.user,
-				points: points,
+				points,
 			}
 
 			if (points > this.#state.user.points) {
@@ -239,12 +253,12 @@ export default class GameBoard {
 		this.#person.setFly()
 		this.#dialog.startGame(this.#status)
 		this.#status = GameStatus.START
-		this.#level.setVisible(this.#state.defaultLevel)
+		this.#level.showLevelText()
 	}
 
 	#startAgain() {
 		this.#setInitial()
 		this.#start()
-		this.#level.setVisible()
+		this.#level.showLevelText()
 	}
 }

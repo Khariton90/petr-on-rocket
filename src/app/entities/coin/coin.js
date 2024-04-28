@@ -1,13 +1,7 @@
 import { Container, Graphics, Sprite, AnimatedSprite } from 'pixi.js'
 
 export class Coin extends Container {
-	#circle = null
-	#text
-
-	#texture = []
-
 	#assets
-
 	state = {
 		animation: null,
 		texture: null,
@@ -16,9 +10,7 @@ export class Coin extends Container {
 
 	constructor(position, assets, type = 'animation') {
 		super()
-
 		this.#assets = assets
-
 		this.width = 38
 		this.height = 38
 		this.x = position.x

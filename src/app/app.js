@@ -14,7 +14,10 @@ export class App {
 		user: null,
 	}
 
+	#app = null
+
 	constructor(root, api) {
+		this.#app = new Application()
 		this.#api = api
 		this.#root = root
 		this.#primaryForm = new PrimaryForm(this.#root, this.#api)
@@ -39,15 +42,15 @@ export class App {
 	}
 
 	#render = async () => {
-		const app = new Application()
-		await app.init({ backgroundAlpha: 0, resizeTo: window })
 		const assets = new GameBoardAssets()
+		const gameBoard = new GameBoard(this.#app, this.#state, this.#api)
+		await this.#app.init({ backgroundAlpha: 0, resizeTo: window })
 		await assets.init()
-		const gameBoard = new GameBoard(app, this.#state, this.#api)
 		await gameBoard.init(assets)
+
 		const rootController = new Controller(gameBoard)
-		app.ticker.add(gameBoard.update, gameBoard)
-		document.body.appendChild(app.canvas)
+		this.#app.ticker.add(gameBoard.update, gameBoard)
+		this.#root.appendChild(this.#app.canvas)
 		document.addEventListener('keydown', evt => rootController.onKeyDown(evt))
 		document.addEventListener('keyup', evt => rootController.onKeyUp(evt))
 	}

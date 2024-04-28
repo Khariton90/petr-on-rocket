@@ -18,9 +18,10 @@ body {
 	position: relative;
 	overflow: hidden;
 	font-family: 'Roboto', sans-serif;
-	background: url('./PNG/game_background_2/game_background_2.png') center center
+	background: url('./assets/tilingsprites/second_1-1920.webp') center center
 		no-repeat;
-	background-size: 110% 110%;
+	background-color: #222;
+	background-size: 100% 100%;
 	position: relative;
 }
 
@@ -33,7 +34,7 @@ body {
 	width: 100%;
 	background: rgba(11, 88, 50, 0.2);
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
 	color: #cecece;
 	padding: 0 40px;
@@ -265,4 +266,8 @@ fieldset {
 
 .tab-title {
 	margin: 16px 0 14px;
+}
+
+.list-item__username {
+	font-size: 14px;
 }

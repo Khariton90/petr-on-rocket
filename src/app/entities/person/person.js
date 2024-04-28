@@ -1,4 +1,3 @@
-import { Assets, Container, Loader, Sprite } from 'pixi.js'
 import { PersonView } from './person.view.js'
 import { PersonPositon } from '../../app.constants.js'
 import { Rocket } from '../rocket/rocket.js'
@@ -26,6 +25,10 @@ export default class Person {
 	#view
 	#rocket
 	#human
+	#prevPosition = {
+		x: 0,
+		y: 0,
+	}
 
 	constructor(stage, textureList) {
 		this.#view = new PersonView(...textureList)
@@ -53,7 +56,19 @@ export default class Person {
 		this.#view.y = value
 	}
 
+	get prevPosition() {
+		return this.#prevPosition
+	}
+
+	setCompleted() {
+		this.#movement.x = 2
+		this.x += this.#movement.x * this.#SPEED
+	}
+
 	update() {
+		this.#prevPosition.x = this.x
+		this.#prevPosition.y = this.y
+
 		this.#velocityX = this.#movement.x * this.#SPEED
 		this.x += this.#velocityX
 		this.#velocityY += this.#GRAVITY_FORCE
@@ -65,6 +80,13 @@ export default class Person {
 
 	setFly() {
 		this.#view.setFly()
+	}
+
+	setInitial() {
+		this.#directionContext.left = 0
+		this.#directionContext.right = 0
+		this.#movement.x = 0
+		this.#movement.y = 0
 	}
 
 	setCrash() {

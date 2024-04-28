@@ -29,3 +29,11 @@ export const debounce = (callback, timeoutDelay = 100) => {
 		timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay)
 	}
 }
+
+export const getCutName = (nickname = '') => {
+	const length = 18
+
+	return nickname.length <= length
+		? nickname
+		: `${nickname.substring(0, length)}...`
+}

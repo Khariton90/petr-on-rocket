@@ -1,3 +1,4 @@
+import { getCutName } from '../../../utils'
 import { FormEnum } from '../../app.constants'
 
 const createLoginFormTemplate = () => `<form class="form"  autocomplete="off">
@@ -66,7 +67,7 @@ const createProfileForm = (data, statistic) => {
 				.map(
 					item => `<li class="list-item">
 								<div class="list-item__body">
-									<span class="list-item__username">${item.nickname}</span>
+									<span class="list-item__username">${getCutName(item.nickname)}</span>
 									<span class="list-item__level">${item.level}</span>
 									<span class="list-item__score">${item.points}</span>
 								</div>
@@ -97,7 +98,7 @@ const createProfileForm = (data, statistic) => {
 				<fieldset class="form-body">
 					<div class="form-body__tab form-body__profile tab">
 						<div class="tab-title form-profile">
-							<h2 class="">${data.nickname}</h2>
+							<h2 class="">${getCutName(data.nickname)}</h2>
 							<h2 class="form-id">ID: ${data.id}</h2>
 						</div>
 						<label>

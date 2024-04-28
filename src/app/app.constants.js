@@ -29,12 +29,13 @@ export const GameStatus = {
 	START: 'START',
 	PAUSE: 'PAUSE',
 	END: 'END',
+	COMPLETED: 'COMPLETED',
 }
 
-export const obstaclesPosX = () => {
+export const obstaclesPosX = count => {
 	const list = []
 
-	for (let i = 0; i < 50; i++) {
+	for (let i = 0; i < count; i++) {
 		if (!list.length) {
 			list.push(0)
 		} else {
@@ -52,3 +53,5 @@ export const FormEnum = {
 	PROFILE: 'profile',
 	LOGOUT: 'logout',
 }
+
+export const obstacleCountList = [15, 20, 150, 200, 250, 300, 400, 450, 500]

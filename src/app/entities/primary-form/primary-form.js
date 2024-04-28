@@ -74,13 +74,13 @@ export class PrimaryForm {
 		console.log('completed')
 	}
 
-	init(value = this.#currentTemplate, data, cb) {
+	init = async (value = this.#currentTemplate, data, cb) => {
 		this.#currentTemplate = value
 
 		if (cb) {
-			this.#state[FormEnum.PROFILE] = () => {
+			this.#state[FormEnum.PROFILE] = async () => {
 				this.#node.replaceChildren()
-				cb()
+				cb(data)
 			}
 		}
 
@@ -115,6 +115,6 @@ export class PrimaryForm {
 	}
 
 	async setStatictic() {
-		this.#state.statistic = await this.#api.getStatictic()
+		this.#state.statistic = await this.#api.getStatistic()
 	}
 }

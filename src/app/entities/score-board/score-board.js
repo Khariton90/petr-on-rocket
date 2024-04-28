@@ -1,5 +1,6 @@
 import { Container, Graphics, Text } from 'pixi.js'
 import { Coin } from '../coin/coin'
+import { obstacleCountList } from '../../app.constants'
 
 export class ScoreBoard extends Container {
 	#scoreBoard = null
@@ -7,9 +8,11 @@ export class ScoreBoard extends Container {
 	#text
 
 	#image
+	#levelCount = null
 
-	constructor(score = 0, texture) {
+	constructor(score = 0, texture, level) {
 		super()
+		this.#levelCount = obstacleCountList[level - 1]
 
 		this.#score = score
 		this.#scoreBoard = new Graphics()
@@ -19,7 +22,7 @@ export class ScoreBoard extends Container {
 		this.#scoreBoard.x = window.innerWidth - this.#scoreBoard.width - 10
 
 		this.#text = new Text({
-			text: `${this.#score}  / 50`,
+			text: `${this.#score}  / ${this.#levelCount}`,
 			style: {
 				fontSize: 50,
 			},
@@ -27,7 +30,6 @@ export class ScoreBoard extends Container {
 
 		this.#text.y = 24
 		this.#text.x = window.innerWidth - 230
-
 		this.#image = new Coin(
 			{
 				x: window.innerWidth - 290,
@@ -42,15 +44,27 @@ export class ScoreBoard extends Container {
 		this.addChild(this.#image)
 	}
 
+	get coinX() {
+		return window.innerWidth - 400
+	}
+
+	get coinY() {
+		return (this.#scoreBoard.height - 19) / 2
+	}
+
 	update() {
-		this.#text.text = `${this.#score} / 50
+		this.#text.text = `${this.#score} / ${this.#levelCount}
 		`
 	}
 
 	incScore(score) {
 		this.#score += score
-		this.#text.text = `${this.#score} / 50
+		this.#text.text = `${this.#score} / ${this.#levelCount}
 		`
+	}
+
+	setLevelCount(count) {
+		this.#levelCount = count
 	}
 
 	setScore(score) {

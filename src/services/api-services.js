@@ -70,15 +70,17 @@ export class ApiServices {
 	async getUser(id) {
 		try {
 			const response = await fetch(`${this.#baseUrl}/users/find/${id}`)
+			if (!response.ok) {
+				deleteAccount()
+			}
 			const user = await response.json()
-
 			return user
 		} catch (error) {
 			console.error(error.message)
 		}
 	}
 
-	async getStatictic() {
+	async getStatistic() {
 		try {
 			const response = await fetch(`${this.#baseUrl}/users/statistic`)
 			const data = await response.json()

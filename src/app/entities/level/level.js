@@ -1,20 +1,14 @@
 import { Container, Text, TilingSprite } from 'pixi.js'
+import gsap from 'gsap'
 
 export class GameLevel extends Container {
 	#bgList = []
-	#speed = 0.5
 	#size = null
-
 	#state = {
 		level: 'first',
 	}
-
 	#assets
-
 	#levelText = null
-
-	#opacity = 0
-
 	#level
 
 	constructor(size, assets, level) {
@@ -24,46 +18,32 @@ export class GameLevel extends Container {
 		this.#assets = assets
 		this.createBg(this.#size, this.#assets.level1)
 		this.#levelText = new Text({
-			text: `Уровень 1`,
+			text: `Уровень ${this.#level.user.level}`,
 			style: {
-				fill: `rgba(255,255,255, ${this.#opacity})`,
+				fill: `rgba(255,255,255, 1)`,
 			},
 		})
 
 		this.#levelText.width = 200
-
 		this.#levelText.x = (this.#size.width - this.#levelText.width) / 2
 		this.#levelText.y = 100
-
-		this.#speed += this.#level.levels[this.#level.defaultLevel].count / 10
 
 		this.addChild(this.#levelText)
 	}
 
-	setVisible(level) {
-		this.#opacity = 1
-		this.#levelText.style.fill = `rgba(255,255,255, ${this.#opacity})`
-
-		this.#speed = 0.5
+	showLevelText() {
+		gsap.fromTo(this.#levelText, { y: 100 }, { y: -50, delay: 1 })
 	}
 
-	setInvisible() {
-		this.#opacity = 0
-		this.#levelText.style.fill = `rgba(255,255,255, ${this.#opacity})`
+	updateText(count) {
+		this.#levelText.text = `Уровень ${count}`
 	}
 
-	update() {
-		if (this.#opacity > 0) {
-			this.#levelText.style.fill = `rgba(255,255,255, ${this.#opacity})`
-			this.#opacity -= 0.008
-		}
-
-		this.#bgList[1].tilePosition.x -= 1.5 * this.#speed
-		this.#bgList[2].tilePosition.x -= 2 * this.#speed
-		this.#bgList[3].tilePosition.x -= 2.5 * this.#speed
-		this.#bgList[4].tilePosition.x -= 3 * this.#speed
-		this.#bgList[5].tilePosition.x -= 3.5 * this.#speed
-		this.#bgList[6].tilePosition.x -= 4.5 * this.#speed
+	update(speed) {
+		// this.#bgList[0].tilePosition.x -= 0.5
+		// this.#bgList[1].tilePosition.x -= 0.8
+		// this.#bgList[3].tilePosition.x -= 3.5 * 0.4
+		// this.#bgList[4].tilePosition.x -= 4 * 0.4
 	}
 
 	async change(level) {
@@ -72,7 +52,6 @@ export class GameLevel extends Container {
 		}
 
 		this.#state.level = level
-
 		this.createBg(this.#size)
 	}
 
@@ -82,10 +61,6 @@ export class GameLevel extends Container {
 				texture: item,
 				width,
 				height,
-				scale: {
-					x: 1,
-					y: 1,
-				},
 			})
 
 			this.addChild(tile)

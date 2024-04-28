@@ -1,4 +1,5 @@
 import { Container, Graphics, Text } from 'pixi.js'
+import { getCutName } from '../../../utils'
 
 const style = {
 	fill: '#FFCC33',
@@ -19,13 +20,16 @@ export class Profile extends Container {
 	constructor(user) {
 		super()
 		this.#state.user = user
+	}
+
+	init = async () => {
 		this.width = 180
 		this.height = 70
 		this.x = 20
 		this.y = 20
 		const mask = new Graphics().rect(-10, -10, 180, 70).fill('rgba(0,0,0,0.4)')
 		this.#view.user = new Text({
-			text: `Пользователь: ${this.#state.user.nickname}`,
+			text: `Пользователь: ${getCutName(this.#state.user.nickname)}`,
 			style,
 		})
 		this.#view.id = new Text({
@@ -46,7 +50,7 @@ export class Profile extends Container {
 	}
 
 	async update(user) {
-		this.#view.user.text = `Пользователь: ${user.nickname}`
+		this.#view.user.text = `Пользователь: ${getCutName(user.nickname)}`
 		this.#view.id.text = `ID: ${user.id}`
 		this.#view.points.text = `Лучший результат: ${user.points}`
 	}
