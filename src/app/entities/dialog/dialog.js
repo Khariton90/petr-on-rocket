@@ -80,7 +80,7 @@ export class Dialog extends Container {
 		this.addChild(this.#form)
 	}
 
-	startGame(status) {
+	startGame() {
 		this.#form.visible = false
 	}
 

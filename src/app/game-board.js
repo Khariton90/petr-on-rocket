@@ -59,21 +59,16 @@ export default class GameBoard {
 		this.#score = value
 	}
 
-	init = async (assets, user) => {
+	init = async (assets, state) => {
 		this.#assets = assets
-		this.#flour = new Floor(this.#assets)
-		this.#roof = new Floor(this.#assets)
+		this.#state = state
+
 		this.#scoreBoard = new ScoreBoard(
 			this.score,
 			this.#assets,
 			this.#state.user.level
 		)
-		this.#flour.x = 0
-		this.#flour.y = this.#screenHeight - this.#flour.height
-		this.#flour.width = this.#screenWidth
-		this.#roof.x = 0
-		this.#roof.y = 0
-		this.#roof.height = 0
+
 		this.#level = new GameLevel(
 			{
 				width: this.#app.width,
@@ -93,11 +88,19 @@ export default class GameBoard {
 			this.#scoreBoard,
 			this.#state
 		)
-		this.#scene.create()
+
 		this.#app.stage.addChild(this.#level)
 		this.#person = new Person(this.#app.stage, this.#assets.person)
+		this.#flour = new Floor(this.#assets)
+		this.#roof = new Floor(this.#assets)
+		this.#flour.x = 0
+		this.#flour.y = this.#screenHeight - this.#flour.height
+		this.#flour.width = this.#screenWidth
+		this.#roof.x = 0
+		this.#roof.y = 0
+		this.#roof.height = 0
 		this.#dialog = new Dialog(this.#assets)
-
+		this.#scene.create()
 		this.#dialog.on('pointerdown', event => {
 			if (this.#status !== GameStatus.START) {
 				this.assignGamePlay()
@@ -106,7 +109,7 @@ export default class GameBoard {
 
 		this.#app.stage.addChild(this.#scene)
 		this.#dialog.eventMode = 'static'
-		this.#profile.init(user)
+		this.#profile.init(this.#state.user)
 		this.#app.stage.addChild(this.#flour)
 		this.#app.stage.addChild(this.#roof)
 		this.#app.stage.addChild(this.#scoreBoard)
@@ -117,6 +120,11 @@ export default class GameBoard {
 	}
 
 	update() {
+		if (this.#completed) {
+			this.#setLevelComplete()
+			return
+		}
+
 		this.#setGameProcess()
 	}
 
@@ -176,23 +184,15 @@ export default class GameBoard {
 		}
 	}
 
-	#setGameProcess() {
+	async #setGameProcess() {
 		if (this.#status !== GameStatus.START) {
 			return
 		}
 
-		if (this.#completed) {
-			this.#setLevelComplete()
-			return
-		}
-
-		const obstacleList = this.#scene.obstacleList
-
 		this.#level.update(this.#speed)
 		this.#flour.update()
 		this.#person.update()
-
-		this.#scene.update(this.#person)
+		this.#scene.update()
 
 		if (testForAABB(this.#person, this.#flour)) {
 			this.#person.y = this.#person.prevPosition.y
@@ -203,21 +203,30 @@ export default class GameBoard {
 			this.#person.y = this.#person.prevPosition.y
 		}
 
-		obstacleList.forEach(obstacle => {
-			this.#setGameOver(this.#person.getRocket(), obstacle.getTop())
-			this.#setGameOver(this.#person.getRocket(), obstacle.getBottom())
-			this.#setGameOver(this.#person.getHuman(), obstacle.getTop())
-			this.#setGameOver(this.#person.getHuman(), obstacle.getBottom())
+		const obstacleList = this.#scene.obstacleList
+		const sceneX = this.#scene.xPosition
+		const rocket = this.#person.getRocket()
+		const human = this.#person.getHuman()
+
+		obstacleList.forEach((obstacle, index) => {
+			this.#scene.deleteObstacle(index)
+			obstacle.update(human, sceneX)
+			this.#setGameOver(rocket, human, obstacle.topBottom)
 		})
 
-		this.#score = this.#scoreBoard.getScore()
 		if (!obstacleList.length) {
 			this.#completed = true
 		}
 	}
 
-	async #setGameOver(person, obstacle) {
-		if (testForAABB(person, obstacle)) {
+	async #setGameOver(rocket, human, topBottom) {
+		const [top, bottom] = topBottom
+		if (
+			testForAABB(rocket, top) ||
+			testForAABB(rocket, bottom) ||
+			testForAABB(human, top) ||
+			testForAABB(human, bottom)
+		) {
 			this.#person.setCrash()
 			this.#status = GameStatus.END
 			this.#dialog.endGame()

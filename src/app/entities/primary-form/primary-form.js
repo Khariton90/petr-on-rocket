@@ -1,6 +1,10 @@
 import { deleteAccount, setAccount } from '../../../services/local-storage'
 import { FormEnum } from '../../app.constants'
 import { PrimaryFormView } from './primary-form.view'
+import { Application } from 'pixi.js'
+import { GameBoardAssets } from '../../game-board.assets'
+import GameBoard from '../../game-board'
+import { Controller } from '../../controller/controller'
 
 export class PrimaryForm {
 	#node = null
@@ -11,32 +15,111 @@ export class PrimaryForm {
 	#link = null
 	#state = {
 		statistic: [],
+		user: null,
 	}
+
+	#app = null
 
 	constructor(node, api) {
 		this.#node = node
 		this.#api = api
 		this.#view = new PrimaryFormView()
+		this.#app = new Application()
 
 		this.#state = {
 			[FormEnum.LOGIN]: async dto => await this.#api.authUser(dto),
 			[FormEnum.PROFILE]: () => this.start(),
 			[FormEnum.REGISTER]: async dto => await this.#api.createUser(dto),
+			statistic: [],
 		}
+	}
+
+	setHandleChangeForm = evt => {
+		evt.preventDefault()
+
+		if (!evt.target.dataset.link) {
+			return
+		}
+
+		const link = evt.target.dataset.link
+		this.#handleChangeForm(link)
+	}
+
+	start() {
+		this.#node.replaceChildren()
+		this.#render()
+	}
+
+	init(data) {
+		this.#profile(data)
+	}
+
+	login() {
+		this.#currentTemplate = FormEnum.LOGIN
+		this.#replace()
+		const template = this.#view.setTemplate(this.#currentTemplate)
+		this.#createTemplate(template)
+	}
+
+	setHandleSubmit = async evt => {
+		evt.preventDefault()
+		const dto = this.#setFormDto()
+		const data = await this.#state[this.#currentTemplate](dto)
+		if (!data) {
+			this.#onError()
+			return
+		}
+
+		if (dto.remember) {
+			setAccount(data.id)
+		}
+
+		this.#onSuccess(data)
+	}
+
+	#register() {
+		this.#currentTemplate = FormEnum.REGISTER
+		this.#replace()
+		const template = this.#view.setTemplate(this.#currentTemplate)
+		this.#createTemplate(template)
+	}
+
+	#logout() {
+		deleteAccount()
+		this.login()
+	}
+
+	#profile = async data => {
+		const stats = await this.#api.getStatistic()
+		const profileData = {
+			user: { ...data },
+			stats,
+		}
+		this.#state.user = profileData.user
+		this.#state.statistic = [...stats]
+		this.#currentTemplate = FormEnum.PROFILE
+		this.#replace()
+		const template = this.#view.setTemplate(this.#currentTemplate, profileData)
+		this.#createTemplate(template)
 	}
 
 	#handleChangeForm(link) {
-		if (link === FormEnum.LOGOUT) {
-			deleteAccount()
+		switch (link) {
+			case FormEnum.REGISTER:
+				this.#register()
+				break
+			case FormEnum.LOGIN:
+				this.login()
+				break
+			case FormEnum.LOGOUT:
+				this.#logout()
 		}
-		this.init(link)
 	}
 
-	#onSuccess = dto => {
+	#onSuccess = data => {
+		this.#profile(data)
 		this.#form.reset()
 		this.#form.querySelector('.button').removeAttribute('disabled')
-		this.#state.statistic.push(dto)
-		this.init(FormEnum.PROFILE, dto)
 	}
 
 	#setFormDto() {
@@ -60,36 +143,11 @@ export class PrimaryForm {
 		}, 2000)
 	}
 
-	setHandleChangeForm = evt => {
-		evt.preventDefault()
-
-		if (evt.target.dataset.link) {
-			const link = evt.target.dataset.link
-			this.#handleChangeForm(link)
-		}
-	}
-
-	start() {
-		console.log(this.#currentTemplate)
-		console.log('completed')
-	}
-
-	init = async (value = this.#currentTemplate, data, cb) => {
-		this.#currentTemplate = value
-
-		if (cb) {
-			this.#state[FormEnum.PROFILE] = async () => {
-				this.#node.replaceChildren()
-				cb(data)
-			}
-		}
-
-		const template = this.#view.setTemplate(
-			this.#currentTemplate,
-			data,
-			this.#state.statistic
-		)
+	#replace() {
 		this.#node.replaceChildren()
+	}
+
+	#createTemplate(template) {
 		this.#node.innerHTML = template
 		this.#form = this.#node.querySelector('.form')
 		this.#link = this.#node.querySelector('.form-link')
@@ -97,24 +155,17 @@ export class PrimaryForm {
 		this.#link.addEventListener('click', this.setHandleChangeForm)
 	}
 
-	setHandleSubmit = async evt => {
-		evt.preventDefault()
-		const dto = this.#setFormDto()
-		const data = await this.#state[this.#currentTemplate](dto)
+	#render = async () => {
+		const assets = new GameBoardAssets()
+		await this.#app.init({ backgroundAlpha: 0, resizeTo: window })
+		const gameBoard = new GameBoard(this.#app, this.#state, this.#api)
+		await assets.init()
+		await gameBoard.init(assets, this.#state)
 
-		if (!data) {
-			this.#onError()
-			return
-		}
-
-		if (dto.remember) {
-			setAccount(data.id)
-		}
-
-		this.#onSuccess(data)
-	}
-
-	async setStatictic() {
-		this.#state.statistic = await this.#api.getStatistic()
+		const rootController = new Controller(gameBoard)
+		this.#app.ticker.add(gameBoard.update, gameBoard)
+		this.#node.appendChild(this.#app.canvas)
+		document.addEventListener('keydown', evt => rootController.onKeyDown(evt))
+		document.addEventListener('keyup', evt => rootController.onKeyUp(evt))
 	}
 }

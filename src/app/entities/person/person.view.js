@@ -27,12 +27,6 @@ export class PersonView extends Container {
 		}
 	}
 
-	#createRootNode() {
-		const rootNode = new Container()
-		this.addChild(rootNode)
-		this.#rootNode = rootNode
-	}
-
 	setFly() {
 		if (this.#state.current === ViewStatus.DEFAULT) {
 			this.setVisible()
@@ -55,6 +49,12 @@ export class PersonView extends Container {
 
 	setInvisible() {
 		this.visible = false
+	}
+
+	#createRootNode() {
+		const rootNode = new Container()
+		this.addChild(rootNode)
+		this.#rootNode = rootNode
 	}
 
 	#setState(key) {

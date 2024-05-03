@@ -7,12 +7,10 @@ const position = {
 
 export class Human extends Container {
 	#human
-
 	#bounds = {
 		width: 10,
 		height: 130,
 	}
-
 	#view
 
 	constructor(view) {

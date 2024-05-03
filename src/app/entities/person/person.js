@@ -34,7 +34,6 @@ export default class Person {
 		this.#view = new PersonView(...textureList)
 		this.#rocket = new Rocket(this.#view)
 		this.#human = new Human(this.#view)
-
 		stage.addChild(this.#view)
 		stage.addChild(this.#rocket)
 		stage.addChild(this.#human)

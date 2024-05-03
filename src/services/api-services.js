@@ -21,16 +21,6 @@ export class ApiServices {
 		this.#baseUrl = BASE_URL
 	}
 
-	#options(method, body) {
-		const options = {
-			method,
-			headers: Headers,
-			body: JSON.stringify(body),
-		}
-
-		return options
-	}
-
 	async createUser(dto) {
 		try {
 			const response = await fetch(
@@ -58,16 +48,21 @@ export class ApiServices {
 			)
 
 			if (response.ok) {
-				return await response.json()
+				const user = await response.json()
+				setAccount(user.id)
+				return user
 			}
-
-			return false
 		} catch (error) {
 			console.error(error.message)
 		}
 	}
 
-	async getUser(id) {
+	async getUser() {
+		const id = getAccount()
+
+		if (!id) {
+			throw new Error()
+		}
 		try {
 			const response = await fetch(`${this.#baseUrl}/users/find/${id}`)
 			if (!response.ok) {
@@ -76,6 +71,7 @@ export class ApiServices {
 			const user = await response.json()
 			return user
 		} catch (error) {
+			deleteAccount()
 			console.error(error.message)
 		}
 	}
@@ -101,5 +97,15 @@ export class ApiServices {
 		} catch (error) {
 			console.error(error.message)
 		}
+	}
+
+	#options(method, body) {
+		const options = {
+			method,
+			headers: Headers,
+			body: JSON.stringify(body),
+		}
+
+		return options
 	}
 }

@@ -6,7 +6,6 @@ export class ScoreBoard extends Container {
 	#scoreBoard = null
 	#score = 0
 	#text
-
 	#image
 	#levelCount = null
 

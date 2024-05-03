@@ -16,14 +16,11 @@ export class Scene extends Container {
 		this.#app = app
 		this.#assets = assets
 		this.#scoreBoard = scoreBoard
-
 		this.#state = state
-
 		this.x = 0
 		this.y = 0
 		this.width = size.width
 		this.height = size.height
-
 		this.#obstacleFactory = new ObstacleFactory(
 			this.#app,
 			this.#assets,
@@ -32,11 +29,22 @@ export class Scene extends Container {
 	}
 
 	get obstacleList() {
-		return this.#obstacleList
+		return this.#obstacleList.slice(0, 5)
 	}
 
 	get obstacleCount() {
 		return obstacleCountList[this.#state.user.level - 1]
+	}
+
+	get xPosition() {
+		return this.x
+	}
+
+	deleteObstacle(index) {
+		if (this.#obstacleList[index].x + this.x + this.#obstacleWidth <= 0) {
+			this.#obstacleList[index].visible = false
+			this.#obstacleList.splice(index, 1)
+		}
 	}
 
 	create() {
@@ -45,21 +53,8 @@ export class Scene extends Container {
 		)
 	}
 
-	#checkIsVisible(obstacle, index) {
-		if (obstacle.x + this.x + this.#obstacleWidth < 0) {
-			if (obstacle.parent !== null) {
-				obstacle.removeFromParent()
-			}
-			this.#obstacleList.splice(index, 1)
-		}
-	}
-
-	update(person) {
+	update() {
 		this.x -= SPEED
-		for (let i = 0; i < this.obstacleList.length; i++) {
-			this.obstacleList[i].update(person.getHuman())
-			this.#checkIsVisible(this.obstacleList[i], i)
-		}
 	}
 
 	setInitial() {

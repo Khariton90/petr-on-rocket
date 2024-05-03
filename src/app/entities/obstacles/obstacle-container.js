@@ -46,13 +46,27 @@ export default class ObstacleContainer extends Container {
 		this.addChild(this.#container)
 	}
 
+	get coin() {
+		return this.#coin
+	}
+
+	get topBottom() {
+		return [this.#top, this.#bottom]
+	}
+
 	update(person) {
-		// this.x -= SPEED
+		if (!this.visible) {
+			return
+		}
 
 		if (testForAABB(person, this.#coin)) {
 			this.#setCoinAnimation()
 			this.#setPoint()
 		}
+	}
+
+	setInvisible() {
+		this.visible = false
 	}
 
 	setInitial() {
@@ -70,7 +84,7 @@ export default class ObstacleContainer extends Container {
 	}
 
 	#setCoinAnimation() {
-		gsap.to(this.#coin, { x: this.#scoreBoard.coinX })
+		gsap.to(this.#coin, { x: this.#scoreBoard.coinX, duration: 0.7 })
 		gsap.to(this.#coin, {
 			y: this.#scoreBoard.coinY,
 			onComplete: () => this.removeChild(this.#coin),
@@ -79,16 +93,6 @@ export default class ObstacleContainer extends Container {
 
 	#setPoint() {
 		this.#isPointed = true
-		if (this.#isPointed) {
-			this.#scoreBoard.incScore(1)
-		}
-	}
-
-	getTop() {
-		return this.#top
-	}
-
-	getBottom() {
-		return this.#bottom
+		this.#scoreBoard.incScore(1)
 	}
 }

@@ -1,13 +1,8 @@
-export const getRandom = (min, max) => {
-	const random = Math.floor(Math.random() * (max - min) + min)
+export const getRandom = (min, max) =>
+	Math.floor(Math.random() * (max - min) + min)
 
-	return random
-}
-
-export const getPipeSizePair = height => {
-	let yPos = -getRandom(height - 100, height - height / 1.7)
-	return yPos
-}
+export const getPipeSizePair = height =>
+	-getRandom(height - 100, height - height / 1.7)
 
 export const testForAABB = (object1, object2) => {
 	const bounds1 = object1.getBounds()

@@ -229,7 +229,7 @@ fieldset {
 }
 
 .list-item {
-	padding: 4px 0 2px 2px;
+	padding: 0 0 0 2px;
 }
 
 .list-item:nth-child(even) {

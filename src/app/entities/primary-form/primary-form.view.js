@@ -29,10 +29,7 @@ const createLoginFormTemplate = () => `<form class="form"  autocomplete="off">
 					</label>
 
 					<button class="button">Поехали!</button>
-					<label for="login-remember">
-						<input type="checkbox" name="remember" id="login-remember" />
-						Запомнить меня
-					</label>
+
 				</fieldset>
 
 				<a href="/sign-up" data-link="register" class="register-link form-link">Создать аккаунт</a>
@@ -61,9 +58,9 @@ const createRegisterFormTemplate = () => `
 				<a href="/sign-in" data-link="login" class="login-link form-link">Перейти к логину</a>
 			</form>`
 
-const createProfileForm = (data, statistic) => {
-	const list = statistic.length
-		? `${statistic
+const createProfileForm = ({ user, stats }) => {
+	const list = stats.length
+		? `${stats
 				.map(
 					item => `<li class="list-item">
 								<div class="list-item__body">
@@ -98,8 +95,8 @@ const createProfileForm = (data, statistic) => {
 				<fieldset class="form-body">
 					<div class="form-body__tab form-body__profile tab">
 						<div class="tab-title form-profile">
-							<h2 class="">${getCutName(data.nickname)}</h2>
-							<h2 class="form-id">ID: ${data.id}</h2>
+							<h2 class="">${getCutName(user.nickname)}</h2>
+							<h2 class="form-id">ID: ${user.id}</h2>
 						</div>
 						<label>
 							Уровень
@@ -109,8 +106,8 @@ const createProfileForm = (data, statistic) => {
 								name="nickname"
 								placeholder=""
 								readonly
-                                disabled="${!data.level}"
-								value="${data.level ? data.level : ''}"
+                                disabled="${!user.level}"
+								value="${user.level ? user.level : ''}"
 							/>
 						</label>
 
@@ -122,12 +119,12 @@ const createProfileForm = (data, statistic) => {
 								name="nickname"
 								placeholder=""
 								readonly
-                                 disabled="${!data.points}"
-								value="${data.points ? data.points : ''}"
+                                 disabled="${!user.points}"
+								value="${user.points ? user.points : ''}"
 							/>
 						</label>
 						<button class="button">${
-							data.points ? 'Продолжить игру!' : 'Начать игру!'
+							user.points ? 'Продолжить игру!' : 'Начать игру!'
 						}</button>
 					</div>
 					<div class="form-body__tab form-body__stat">
@@ -150,15 +147,14 @@ const createProfileForm = (data, statistic) => {
 export class PrimaryFormView {
 	#statistic = []
 	#state = {
-		[FormEnum.LOGIN]: data => createLoginFormTemplate(data),
-		[FormEnum.PROFILE]: data => createProfileForm(data, this.#statistic),
-		[FormEnum.REGISTER]: data => createRegisterFormTemplate(data),
-		[FormEnum.LOGOUT]: data => createLoginFormTemplate(data),
+		[FormEnum.LOGIN]: () => createLoginFormTemplate(),
+		[FormEnum.PROFILE]: data => createProfileForm(data),
+		[FormEnum.REGISTER]: () => createRegisterFormTemplate(),
+		[FormEnum.LOGOUT]: () => createLoginFormTemplate(),
 	}
 	constructor() {}
 
-	setTemplate(value, data, statistic) {
-		this.#statistic = statistic
-		return this.#state[value](data)
+	setTemplate(template, data) {
+		return this.#state[template](data)
 	}
 }
