@@ -14,9 +14,12 @@ export default class ObstacleContainer extends Container {
 	#coin
 	#positionX
 	#scoreBoard
-	#isPointed = false
 	#obstacleTexture
 	#assets
+	#coinPosition = {
+		x: 0,
+		y: 0,
+	}
 
 	constructor(size, position, assets, scoreBoard) {
 		super()
@@ -36,14 +39,16 @@ export default class ObstacleContainer extends Container {
 		this.#bottom.x = 0
 		this.#top.y = getPipeSizePair(height)
 		this.#bottom.y = this.#top.y + this.#container.height + INTERVAL
-		const coinPosition =
+		this.#coinPosition.x = 110 / 2 - 15
+		this.#coinPosition.y =
 			this.#top.y + this.#container.height + INTERVAL - INTERVAL / 2
 
-		this.#coin = new Coin({ x: 110 / 2 - 15, y: coinPosition }, this.#assets)
+		this.#coin = new Coin(this.#coinPosition, this.#assets)
 		this.addChild(this.#top)
 		this.addChild(this.#bottom)
 		this.addChild(this.#coin)
 		this.addChild(this.#container)
+		this.visible = false
 	}
 
 	get coin() {
@@ -56,6 +61,7 @@ export default class ObstacleContainer extends Container {
 
 	update(person) {
 		if (!this.visible) {
+			this.visible = true
 			return
 		}
 
@@ -76,23 +82,21 @@ export default class ObstacleContainer extends Container {
 		const coinPosition =
 			this.#top.y + this.#container.height + INTERVAL - INTERVAL / 2
 		this.removeChild(this.#coin)
-		this.#coin = new Coin({ x: 110 / 2 - 15, y: coinPosition }, this.#assets)
+		this.#coin = new Coin(this.#coinPosition, this.#assets)
 		this.addChild(this.#coin)
-
-		this.#isPointed = false
-		this.visible = true
 	}
 
 	#setCoinAnimation() {
-		gsap.to(this.#coin, { x: this.#scoreBoard.coinX, duration: 0.7 })
+		this.#coin.stopAnimation()
 		gsap.to(this.#coin, {
+			x: this.#scoreBoard.coinX,
 			y: this.#scoreBoard.coinY,
+			duration: 0.6,
 			onComplete: () => this.removeChild(this.#coin),
 		})
 	}
 
 	#setPoint() {
-		this.#isPointed = true
 		this.#scoreBoard.incScore(1)
 	}
 }

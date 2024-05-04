@@ -1,6 +1,11 @@
 import { Container } from 'pixi.js'
 import ObstacleFactory from '../obstacles/obstacle.factory'
-import { SPEED, obstacleCountList, obstaclesPosX } from '../../app.constants'
+import { obstacleCountList, obstaclesPosX } from '../../app.constants'
+import gsap from 'gsap'
+
+const levelSpeedList = [
+	5, 5.5, 6, 6.2, 6.4, 6.6, 6.8, 7, 7.2, 7.4, 7.6, 7.8, 8, 8.2, 8.4, 8.6, 8.8,
+]
 
 export class Scene extends Container {
 	#app
@@ -10,6 +15,7 @@ export class Scene extends Container {
 	#obstacleFactory = null
 	#obstacleList = []
 	#obstacleWidth = 110
+	#speed = 5
 
 	constructor(size, app, assets, scoreBoard, state) {
 		super()
@@ -26,6 +32,8 @@ export class Scene extends Container {
 			this.#assets,
 			this.#scoreBoard
 		)
+
+		this.#speed = levelSpeedList[this.#state.user.level - 1]
 	}
 
 	get obstacleList() {
@@ -40,11 +48,22 @@ export class Scene extends Container {
 		return this.x
 	}
 
-	deleteObstacle(index) {
-		if (this.#obstacleList[index].x + this.x + this.#obstacleWidth <= 0) {
-			this.#obstacleList[index].visible = false
-			this.#obstacleList.splice(index, 1)
+	changeLevelSpeed(level) {
+		if (this.#speed === levelSpeedList[level - 1]) {
+			return
 		}
+
+		this.#speed = levelSpeedList[level - 1]
+	}
+
+	deleteObstacle() {
+		if (this.#obstacleList[0].x + this.x + this.#obstacleWidth > 0) {
+			return
+		}
+
+		this.#obstacleList[0].removeChild()
+		this.#obstacleList[0].removeFromParent()
+		this.#obstacleList.splice(0, 1)
 	}
 
 	create() {
@@ -53,8 +72,8 @@ export class Scene extends Container {
 		)
 	}
 
-	update() {
-		this.x -= SPEED
+	update(delta) {
+		this.x -= this.#speed * delta
 	}
 
 	setInitial() {

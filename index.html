@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 	<head>
 		<meta charset="UTF-8" />
 		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
@@ -14,14 +14,21 @@
 		<title>petr-on-rocket</title>
 	</head>
 	<body>
+		<div class="preloader">
+			<div class="animation">
+				<div class="billy">
+					<div class="image"></div>
+					<div class="image-shadow"></div>
+				</div>
+			</div>
+		</div>
 		<div class="app"></div>
 
-		<footer class="footer">
+		<footer class="footer" style="display: none">
 			<div class="copyright">Разработал Харитонов Евгений</div>
-			<!-- <div class="footer-count">
-				<p>Пользователей:100</p>
-				<p>Онлайн:20</p>
-			</div> -->
+			<div class="footer-count">
+				<p class="count-text"></p>
+			</div>
 		</footer>
 		<script type="module" src="./src/main.js"></script>
 	</body>

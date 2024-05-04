@@ -34,33 +34,42 @@ body {
 	width: 100%;
 	background: rgba(11, 88, 50, 0.2);
 	display: flex;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
 	color: #cecece;
 	padding: 0 40px;
 	font-size: 12px;
+	gap: 4px;
 }
 
 .footer-count p {
 	position: relative;
 }
 
+.count-text {
+	display: none;
+}
+
+.count-text.visible {
+	display: block;
+}
+
 .footer-count p::before {
 	content: ' ';
 	position: absolute;
 	left: -8px;
-	top: 4px;
-	width: 6px;
-	height: 6px;
+	top: 5px;
+	width: 5px;
+	height: 5px;
 	border-radius: 50%;
 }
 
 .footer-count p:nth-child(1)::before {
-	background: tomato;
+	background: #ff2700;
 }
 
 .footer-count p:nth-child(2)::before {
-	background: green;
+	background: #008100;
 }
 
 .form {
@@ -69,7 +78,7 @@ body {
 	max-width: 400px;
 	width: 400px;
 	height: 500px;
-	background: rgba(0, 0, 0, 0.9);
+	background: linear-gradient(360deg, #5c0303, #038fb9);
 	padding: 40px 20px;
 	display: flex;
 	flex-direction: column;
@@ -224,7 +233,7 @@ fieldset {
 
 .form-body__title span {
 	width: 60px;
-	background: #444;
+	background: #111;
 	font-size: 12px;
 }
 
@@ -233,7 +242,7 @@ fieldset {
 }
 
 .list-item:nth-child(even) {
-	background: #444;
+	background: #111;
 }
 
 .list-item__body {
@@ -270,4 +279,119 @@ fieldset {
 
 .list-item__username {
 	font-size: 14px;
+}
+
+.preloader {
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1001;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	background: linear-gradient(15deg, #ccc, #fff);
+}
+
+.animation {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+.animation .billy {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.image-shadow {
+	width: 80px;
+	height: 7px;
+	background-color: #323232;
+	border-radius: 50%;
+	animation: shadow infinite 3.5s ease;
+}
+
+.animation .image {
+	width: 300px;
+	height: 400px;
+	background: url('./assets/person/person-234.webp') no-repeat center center;
+	animation: airbill infinite 3.5s ease;
+}
+
+@keyframes shadow {
+	0% {
+		opacity: 0;
+	}
+
+	50% {
+		opacity: 0;
+	}
+
+	53% {
+		opacity: 0.4;
+	}
+
+	55% {
+		opacity: 0.7;
+	}
+
+	60% {
+		width: 130px;
+		opacity: 0.7;
+	}
+
+	70% {
+		width: 60px;
+		opacity: 0.4;
+	}
+
+	80% {
+		width: 120px;
+		opacity: 0.7;
+	}
+
+	81% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes airbill {
+	0% {
+		transform: translate(-120vw);
+	}
+
+	50% {
+		transform: translate(0%);
+	}
+
+	60% {
+		transform: translate(0%, 20%);
+	}
+
+	70% {
+		transform: translate(0%, -20%);
+	}
+
+	80% {
+		transform: translate(0%, 0%);
+	}
+
+	100% {
+		transform: translate(120vw);
+	}
 }

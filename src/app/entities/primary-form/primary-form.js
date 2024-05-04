@@ -162,10 +162,17 @@ export class PrimaryForm {
 		await assets.init()
 		await gameBoard.init(assets, this.#state)
 
+		this.#app.ticker.speed = 1
+
 		const rootController = new Controller(gameBoard)
 		this.#app.ticker.add(gameBoard.update, gameBoard)
 		this.#node.appendChild(this.#app.canvas)
 		document.addEventListener('keydown', evt => rootController.onKeyDown(evt))
 		document.addEventListener('keyup', evt => rootController.onKeyUp(evt))
+
+		const count = await this.#api.getTotalCount()
+		const countText = document.querySelector('.count-text')
+		countText.classList.add('visible')
+		countText.textContent = `Кол-во пользователей: ${count}`
 	}
 }

@@ -16,7 +16,7 @@ export class ScoreBoard extends Container {
 		this.#score = score
 		this.#scoreBoard = new Graphics()
 			.rect(0, 0, 320, 80)
-			.fill('rgba(255,255,255, 0.3)')
+			.fill('rgba(255,255,255, 1)')
 		this.#scoreBoard.y = 10
 		this.#scoreBoard.x = window.innerWidth - this.#scoreBoard.width - 10
 

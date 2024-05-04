@@ -99,6 +99,16 @@ export class ApiServices {
 		}
 	}
 
+	async getTotalCount() {
+		try {
+			const response = await fetch(`${this.#baseUrl}/users/total`)
+			const total = await response.json()
+			return total
+		} catch (error) {
+			return 0
+		}
+	}
+
 	#options(method, body) {
 		const options = {
 			method,

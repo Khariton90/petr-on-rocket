@@ -1,4 +1,4 @@
-import { Container, Graphics, Sprite, AnimatedSprite } from 'pixi.js'
+import { Container, Sprite, AnimatedSprite } from 'pixi.js'
 
 export class Coin extends Container {
 	#assets
@@ -42,10 +42,12 @@ export class Coin extends Container {
 		testCoin.width = 38
 		testCoin.height = 38
 		testCoin.animationSpeed = 1 / 8
-
-		testCoin.play()
 		this.state.animation = testCoin
-
+		testCoin.play()
 		return testCoin
+	}
+
+	stopAnimation() {
+		this.state.animation.stop()
 	}
 }

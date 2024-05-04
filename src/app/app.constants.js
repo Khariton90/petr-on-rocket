@@ -54,4 +54,6 @@ export const FormEnum = {
 	LOGOUT: 'logout',
 }
 
-export const obstacleCountList = [15, 20, 150, 200, 250, 300, 400, 450, 500]
+export const obstacleCountList = [
+	10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 250, 300, 400, 450, 500,
+]

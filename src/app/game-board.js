@@ -119,13 +119,13 @@ export default class GameBoard {
 		this.#app.stage.addChild(this.#profile)
 	}
 
-	update() {
+	update(ticker) {
 		if (this.#completed) {
-			this.#setLevelComplete()
+			this.#setLevelComplete(ticker.deltaTime)
 			return
 		}
 
-		this.#setGameProcess()
+		this.#setGameProcess(ticker.deltaTime)
 	}
 
 	assignGamePlay() {
@@ -154,10 +154,10 @@ export default class GameBoard {
 		this.#person.setInitial()
 	}
 
-	async #setLevelComplete() {
+	async #setLevelComplete(delta) {
 		this.#level.update(this.#speed)
 		this.#person.setCompleted()
-		this.#scene.update(this.#person)
+		this.#scene.update(delta)
 
 		if (this.#person.x >= this.#app.width) {
 			this.#dialog.endGame()
@@ -169,9 +169,10 @@ export default class GameBoard {
 				points > this.#state.user.points ? points : this.#state.user.points
 
 			this.#scoreBoard.setLevelCount(obstacleCountList[this.#state.user.level])
-			this.#scoreBoard.setLevelCount(obstacleCountList[this.#state.user.level])
 
 			this.#state.user.level += 1
+
+			this.#scene.changeLevelSpeed(this.#state.user.level)
 			const user = {
 				...this.#state.user,
 				points: userPoints,
@@ -184,15 +185,16 @@ export default class GameBoard {
 		}
 	}
 
-	async #setGameProcess() {
+	async #setGameProcess(delta) {
 		if (this.#status !== GameStatus.START) {
 			return
 		}
 
-		this.#level.update(this.#speed)
 		this.#flour.update()
 		this.#person.update()
-		this.#scene.update()
+
+		this.#scene.deleteObstacle()
+		this.#scene.update(delta)
 
 		if (testForAABB(this.#person, this.#flour)) {
 			this.#person.y = this.#person.prevPosition.y
@@ -208,11 +210,12 @@ export default class GameBoard {
 		const rocket = this.#person.getRocket()
 		const human = this.#person.getHuman()
 
-		obstacleList.forEach((obstacle, index) => {
-			this.#scene.deleteObstacle(index)
+		obstacleList.forEach(obstacle => {
 			obstacle.update(human, sceneX)
 			this.#setGameOver(rocket, human, obstacle.topBottom)
 		})
+
+		this.#level.update(this.#speed)
 
 		if (!obstacleList.length) {
 			this.#completed = true
@@ -230,17 +233,24 @@ export default class GameBoard {
 			this.#person.setCrash()
 			this.#status = GameStatus.END
 			this.#dialog.endGame()
-			const points = this.#scoreBoard.getScore()
-			const user = {
-				...this.#state.user,
-				points,
-			}
-
-			if (points > this.#state.user.points) {
-				this.#state.user = await this.#api.updateUser(user)
-				this.#profile.update(this.#state.user)
-			}
+			this.#changeLevel()
 		}
+	}
+
+	async #changeLevel() {
+		const points = this.#scoreBoard.getScore()
+
+		if (points <= this.#state.user.points) {
+			return
+		}
+
+		const user = {
+			...this.#state.user,
+			points,
+		}
+
+		this.#state.user = await this.#api.updateUser(user)
+		this.#profile.update(this.#state.user)
 	}
 
 	#play() {

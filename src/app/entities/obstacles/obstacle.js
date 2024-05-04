@@ -15,5 +15,6 @@ export default class Obstacle extends Container {
 		obstacle.width = 110
 		obstacle.height = this.#height
 		this.addChild(obstacle)
+		this.interactiveChildren = false
 	}
 }

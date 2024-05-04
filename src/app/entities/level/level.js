@@ -29,6 +29,8 @@ export class GameLevel extends Container {
 		this.#levelText.y = 100
 
 		this.addChild(this.#levelText)
+		this.#bgList[1].scale = 1.05
+		this.#bgList[0].scale = 1.1
 	}
 
 	showLevelText() {
@@ -40,10 +42,8 @@ export class GameLevel extends Container {
 	}
 
 	update(speed) {
-		// this.#bgList[0].tilePosition.x -= 0.5
-		// this.#bgList[1].tilePosition.x -= 0.8
-		// this.#bgList[3].tilePosition.x -= 3.5 * 0.4
-		// this.#bgList[4].tilePosition.x -= 4 * 0.4
+		this.#bgList[0].tilePosition.x -= 0.2
+		this.#bgList[1].tilePosition.x -= 0.4
 	}
 
 	async change(level) {
