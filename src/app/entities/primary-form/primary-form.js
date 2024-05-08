@@ -169,6 +169,8 @@ export class PrimaryForm {
 		this.#node.appendChild(this.#app.canvas)
 		document.addEventListener('keydown', evt => rootController.onKeyDown(evt))
 		document.addEventListener('keyup', evt => rootController.onKeyUp(evt))
+		const burgerBtn = document.querySelector('.burger')
+		burgerBtn.addEventListener('click', () => gameBoard.pause())
 
 		const count = await this.#api.getTotalCount()
 		const countText = document.querySelector('.count-text')

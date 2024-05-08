@@ -1,12 +1,19 @@
 :root {
 	--color-red: #ed1c24;
 	--color-white: #fff;
+	--color-yellow: #ffcc33;
+	--text-shadow: #333 1px 0 3px;
 }
 
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
 }
 
 body {
@@ -394,4 +401,131 @@ fieldset {
 	100% {
 		transform: translate(120vw);
 	}
+}
+
+.burger {
+	width: 50px;
+	height: 50px;
+	position: absolute;
+	bottom: 50px;
+	right: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	padding: 10px;
+	cursor: pointer;
+	border-radius: 50%;
+	transition: background-color 0.1s ease;
+}
+
+.burger:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+	transition: background-color 0.1s ease;
+}
+
+.burger span {
+	width: 100%;
+	height: 3px;
+	background-color: #fff;
+}
+
+.dialog::backdrop {
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+.dialog {
+	max-width: 1200px;
+	max-height: 800px;
+	margin: auto;
+	padding: 0;
+	outline: none;
+	border: none;
+	padding: 40px 20px;
+
+	& .dialog-title {
+		text-align: center;
+		line-height: 1.5;
+		color: var(--color-yellow);
+		text-shadow: var(--text-shadow);
+	}
+}
+
+.dialog-content {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: 1fr 200px;
+	column-gap: 6px;
+	row-gap: 8px;
+}
+
+.dialog-image {
+	box-shadow: var(--text-shadow);
+	max-width: 400px;
+	background: linear-gradient(-45deg, #ccc, #fff);
+}
+
+.dialog-options {
+	grid-column: 2/4;
+	box-shadow: var(--text-shadow);
+	background: linear-gradient(45deg, #ccc, #fff);
+}
+
+.dialog-chat {
+	height: 200px;
+	grid-column: 1/4;
+	box-shadow: var(--text-shadow);
+	background: linear-gradient(180deg, #ccc, #fff);
+}
+
+.options {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 20px;
+	padding: 0 20px;
+	& .dialog-title {
+		grid-column: 1/4;
+	}
+}
+
+.options-keyboard {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+
+	& .key {
+		width: 100%;
+		height: 60px;
+		display: flex;
+		align-items: center;
+		gap: 35px;
+	}
+}
+
+.key-btn {
+	min-width: 50px;
+	padding: 20px;
+	width: max-content;
+	height: 50px;
+	border: 1px solid #ccc;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	box-shadow: var(--text-shadow);
+	border-radius: 4px;
+	background-color: var(--color-white);
+
+	&::after {
+		content: '';
+		position: absolute;
+		top: 24px;
+		right: -30px;
+		width: 40px;
+		height: 2px;
+		background-color: var(--color-yellow);
+	}
+}
+
+.key-title {
+	text-transform: uppercase;
 }

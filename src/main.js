@@ -12,6 +12,8 @@ const count = await api.getTotalCount()
 const countText = document.querySelector('.count-text')
 const preloader = document.querySelector('.preloader')
 const footer = document.querySelector('.footer')
+const burger = document.querySelector('.burger')
+const dialog = document.querySelector('.dialog')
 
 if (count) {
 	countText.classList.add('visible')
@@ -26,3 +28,9 @@ gsap.to(preloader, {
 		footer.style.display = 'flex'
 	},
 })
+
+const handleOpen = () => {
+	dialog.showModal()
+}
+
+burger.addEventListener('click', handleOpen)

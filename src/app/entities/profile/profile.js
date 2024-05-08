@@ -2,8 +2,13 @@ import { Container, Graphics, Text } from 'pixi.js'
 import { getCutName } from '../../../utils'
 
 const style = {
-	fill: '#333',
-	fontSize: 10,
+	fontSize: 12,
+	fill: `#FFCC33`,
+	dropShadow: true,
+	dropShadowColor: '#000',
+	dropShadowAngle: Math.PI / 6,
+	dropShadowDistance: 2,
+	letterSpacing: 1.5,
 }
 
 export class Profile extends Container {
@@ -27,9 +32,7 @@ export class Profile extends Container {
 		this.height = 70
 		this.x = 20
 		this.y = 20
-		const mask = new Graphics()
-			.rect(-10, -10, 180, 70)
-			.fill('rgba(255,255,255,0.7)')
+
 		this.#view.user = new Text({
 			text: `Пользователь: ${getCutName(this.#state.user.nickname)}`,
 			style,
@@ -45,7 +48,7 @@ export class Profile extends Container {
 		this.#view.user.y = 0
 		this.#view.id.y = 16
 		this.#view.points.y = 32
-		this.addChild(mask)
+
 		this.addChild(this.#view.user)
 		this.addChild(this.#view.id)
 		this.addChild(this.#view.points)

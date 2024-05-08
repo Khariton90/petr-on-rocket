@@ -20,13 +20,17 @@ export class GameLevel extends Container {
 		this.#levelText = new Text({
 			text: `Уровень ${this.#level.user.level}`,
 			style: {
-				fill: `rgba(255,255,255, 1)`,
+				fill: `#FFCC33`,
+				dropShadow: true,
+				dropShadowColor: '#000',
+				dropShadowAngle: Math.PI / 6,
+				dropShadowDistance: 2,
 			},
 		})
 
 		this.#levelText.width = 200
 		this.#levelText.x = (this.#size.width - this.#levelText.width) / 2
-		this.#levelText.y = 100
+		this.#levelText.y = 200
 
 		this.addChild(this.#levelText)
 		this.#bgList[1].scale = 1.05
@@ -34,7 +38,7 @@ export class GameLevel extends Container {
 	}
 
 	showLevelText() {
-		gsap.fromTo(this.#levelText, { y: 100 }, { y: -50, delay: 1 })
+		gsap.fromTo(this.#levelText, { y: 200 }, { y: -50, delay: 1 })
 	}
 
 	updateText(count) {

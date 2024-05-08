@@ -11,12 +11,15 @@ export class ScoreBoard extends Container {
 
 	constructor(score = 0, texture, level) {
 		super()
-		this.#levelCount = obstacleCountList[level - 1]
 
+		this.width = 290
+		this.height = 230
+
+		this.#levelCount = obstacleCountList[level - 1]
 		this.#score = score
 		this.#scoreBoard = new Graphics()
 			.rect(0, 0, 320, 80)
-			.fill('rgba(255,255,255, 1)')
+			.fill('rgba(255,255,255, 0)')
 		this.#scoreBoard.y = 10
 		this.#scoreBoard.x = window.innerWidth - this.#scoreBoard.width - 10
 
@@ -24,11 +27,17 @@ export class ScoreBoard extends Container {
 			text: `${this.#score}  / ${this.#levelCount}`,
 			style: {
 				fontSize: 50,
+				fill: `#FFCC33`,
+				dropShadow: true,
+				dropShadowColor: '#000',
+				dropShadowAngle: Math.PI / 6,
+				dropShadowDistance: 2,
 			},
 		})
 
 		this.#text.y = 24
 		this.#text.x = window.innerWidth - 230
+
 		this.#image = new Coin(
 			{
 				x: window.innerWidth - 290,

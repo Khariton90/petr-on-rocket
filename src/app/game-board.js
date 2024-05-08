@@ -5,6 +5,7 @@ import {
 	PersonPositon,
 	GameStatus,
 	obstacleCountList,
+	DialogText,
 } from './app.constants.js'
 import { Dialog } from './entities/dialog/dialog.js'
 import { ScoreBoard } from './entities/score-board/score-board.js'
@@ -131,7 +132,7 @@ export default class GameBoard {
 	assignGamePlay() {
 		switch (this.#status) {
 			case GameStatus.START:
-				this.#pause()
+				this.pause()
 				break
 			case GameStatus.PAUSE:
 				this.#play()
@@ -160,18 +161,14 @@ export default class GameBoard {
 		this.#scene.update(delta)
 
 		if (this.#person.x >= this.#app.width) {
-			this.#dialog.endGame()
+			this.#dialog.update(DialogText.START)
 			this.#status = GameStatus.END
 			this.#completed = false
 			const points = this.#scoreBoard.getScore()
-
 			const userPoints =
 				points > this.#state.user.points ? points : this.#state.user.points
-
 			this.#scoreBoard.setLevelCount(obstacleCountList[this.#state.user.level])
-
 			this.#state.user.level += 1
-
 			this.#scene.changeLevelSpeed(this.#state.user.level)
 			const user = {
 				...this.#state.user,
@@ -232,14 +229,13 @@ export default class GameBoard {
 		) {
 			this.#person.setCrash()
 			this.#status = GameStatus.END
-			this.#dialog.endGame()
+			this.#dialog.update(DialogText.END)
 			this.#changeLevel()
 		}
 	}
 
 	async #changeLevel() {
 		const points = this.#scoreBoard.getScore()
-
 		if (points <= this.#state.user.points) {
 			return
 		}
@@ -256,12 +252,14 @@ export default class GameBoard {
 	#play() {
 		this.#status = GameStatus.START
 		this.#dialog.startGame()
+		this.#app.ticker.start()
 	}
 
-	#pause() {
-		if (this.#status === GameStatus.START) {
+	pause() {
+		if (this.#status === GameStatus.START && !this.#completed) {
 			this.#status = GameStatus.PAUSE
-			this.#dialog.pause()
+			this.#dialog.update(DialogText.PAUSE)
+			setTimeout(() => this.#app.ticker.stop(), 100)
 		}
 	}
 
@@ -270,7 +268,7 @@ export default class GameBoard {
 		this.#scoreBoard.getScore(this.score)
 		this.#person.y = PersonPositon.y
 		this.#person.setFly()
-		this.#dialog.startGame(this.#status)
+		this.#dialog.startGame()
 		this.#status = GameStatus.START
 		this.#level.showLevelText()
 	}
