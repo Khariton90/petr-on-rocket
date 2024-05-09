@@ -7,6 +7,8 @@ import GameBoard from '../../game-board'
 import { Controller } from '../../controller/controller'
 import { Chat } from '../../chat'
 
+const burger = document.querySelector('.burger')
+
 export class PrimaryForm {
 	#node = null
 	#view = null
@@ -168,16 +170,15 @@ export class PrimaryForm {
 		this.#node.appendChild(this.#app.canvas)
 		document.addEventListener('keydown', evt => rootController.onKeyDown(evt))
 		document.addEventListener('keyup', evt => rootController.onKeyUp(evt))
-		const burgerBtn = document.querySelector('.burger')
-		burgerBtn.classList.add('visible')
-		burgerBtn.addEventListener('click', () => gameBoard.pause())
+		burger.classList.add('visible')
+		burger.addEventListener('click', () => {
+			gameBoard.pause()
+			this.#view.onOpenModal()
+		})
 		const count = await this.#api.getTotalCount()
-		const countText = document.querySelector('.count-text')
-		countText.classList.add('visible')
-		countText.textContent = `Кол-во пользователей: ${count}`
+		this.#view.setCountText(count)
 		const chat = new Chat(this.#state)
 		chat.init()
-
 		document.addEventListener('visibilitychange', () => {
 			if (document.hidden) {
 				gameBoard.pause()

@@ -145,16 +145,28 @@ const createProfileForm = ({ user, stats }) => {
 }
 
 export class PrimaryFormView {
-	#statistic = []
 	#state = {
 		[FormEnum.LOGIN]: () => createLoginFormTemplate(),
 		[FormEnum.PROFILE]: data => createProfileForm(data),
 		[FormEnum.REGISTER]: () => createRegisterFormTemplate(),
 		[FormEnum.LOGOUT]: () => createLoginFormTemplate(),
 	}
-	constructor() {}
 
 	setTemplate(template, data) {
 		return this.#state[template](data)
+	}
+
+	setCountText(count) {
+		const footer = document.querySelector('.footer')
+		const countText = document.querySelector('.count-text')
+		const copyright = document.querySelector('.copyright')
+		footer.classList.add('visible')
+		countText.textContent = `Кол-во пользователей: ${count}`
+		copyright.textContent = '(C) Разработал Харитонов Евгений'
+	}
+
+	onOpenModal() {
+		const dialog = document.querySelector('.dialog')
+		dialog.showModal()
 	}
 }
