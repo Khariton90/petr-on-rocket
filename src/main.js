@@ -3,6 +3,7 @@ import { ApiServices } from './services/api-services.js'
 import { App } from './app/app.js'
 import gsap from 'gsap'
 import PixiPlugin from 'gsap/PixiPlugin'
+
 gsap.registerPlugin(PixiPlugin)
 
 const api = new ApiServices()
@@ -20,6 +21,12 @@ if (count) {
 	countText.textContent = `Кол-во пользователей: ${count} `
 }
 
+const handleOpen = () => {
+	dialog.showModal()
+}
+
+burger.addEventListener('click', handleOpen)
+
 gsap.to(preloader, {
 	display: 'none',
 	duration: 3.5,
@@ -28,9 +35,3 @@ gsap.to(preloader, {
 		footer.style.display = 'flex'
 	},
 })
-
-const handleOpen = () => {
-	dialog.showModal()
-}
-
-burger.addEventListener('click', handleOpen)

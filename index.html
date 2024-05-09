@@ -71,8 +71,19 @@
 						</div>
 					</div>
 				</div>
-				<div class="dialog-chat">
+				<div class="dialog-chat chat">
 					<h2 class="dialog-title">Чат</h2>
+					<ul class="chat-list" id="messages"></ul>
+					<form class="chat-form" autocomplete="off">
+						<input
+							class="field"
+							type="text"
+							name="message"
+							placeholder="Сообщение..."
+							required
+						/>
+						<button class="btn" type="submit">Отправить</button>
+					</form>
 				</div>
 			</div>
 		</dialog>
@@ -85,4 +96,14 @@
 		</footer>
 		<script type="module" src="./src/main.js"></script>
 	</body>
+
+	<template class="message-template">
+		<li class="chat-message">
+			<p class="chat-message-user">User</p>
+			<div class="chat-message-body">
+				<p class="chat-message-body-text">Lorem ipsum dolor</p>
+				<time class="chat-message-body-time">09.05.24 01:28</time>
+			</div>
+		</li>
+	</template>
 </html>

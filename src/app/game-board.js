@@ -257,9 +257,9 @@ export default class GameBoard {
 
 	pause() {
 		if (this.#status === GameStatus.START && !this.#completed) {
-			this.#status = GameStatus.PAUSE
 			this.#dialog.update(DialogText.PAUSE)
-			setTimeout(() => this.#app.ticker.stop(), 100)
+			this.#status = GameStatus.PAUSE
+			setTimeout(() => this.#app.ticker.stop(), 50)
 		}
 	}
 

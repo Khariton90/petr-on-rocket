@@ -2,7 +2,7 @@
 	--color-red: #ed1c24;
 	--color-white: #fff;
 	--color-yellow: #ffcc33;
-	--text-shadow: #333 1px 0 3px;
+	--text-shadow: #333 0px 1px 4px;
 }
 
 * {
@@ -16,6 +16,10 @@ img {
 	height: auto;
 }
 
+ul {
+	list-style: none;
+}
+
 body {
 	display: flex;
 	justify-content: center;
@@ -23,13 +27,12 @@ body {
 	width: 100vw;
 	height: 100vh;
 	position: relative;
-	overflow: hidden;
 	font-family: 'Roboto', sans-serif;
 	background: url('./assets/tilingsprites/second_1-1920.webp') center center
 		no-repeat;
-	background-color: #222;
 	background-size: 100% 100%;
 	position: relative;
+	overflow: hidden;
 }
 
 .footer {
@@ -72,7 +75,7 @@ body {
 }
 
 .footer-count p:nth-child(1)::before {
-	background: #ff2700;
+	background: #008100;
 }
 
 .footer-count p:nth-child(2)::before {
@@ -85,13 +88,14 @@ body {
 	max-width: 400px;
 	width: 400px;
 	height: 500px;
-	background: linear-gradient(360deg, #5c0303, #038fb9);
+	background: linear-gradient(15deg, #ccc, #fff);
 	padding: 40px 20px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	gap: 10px;
-	color: #fff;
+	color: #111;
+	box-shadow: var(--text-shadow);
 }
 
 fieldset {
@@ -119,7 +123,7 @@ fieldset {
 }
 
 .form .form-link {
-	color: var(--color-white);
+	color: var(--color-red);
 	text-align: center;
 	text-decoration: none;
 	padding: 16px 30px 2px;
@@ -240,7 +244,7 @@ fieldset {
 
 .form-body__title span {
 	width: 60px;
-	background: #111;
+	background: #ccc;
 	font-size: 12px;
 }
 
@@ -249,7 +253,7 @@ fieldset {
 }
 
 .list-item:nth-child(even) {
-	background: #111;
+	background: #ccc;
 }
 
 .list-item__body {
@@ -405,7 +409,7 @@ fieldset {
 
 .burger {
 	width: 50px;
-	height: 50px;
+	height: 46px;
 	position: absolute;
 	bottom: 50px;
 	right: 10px;
@@ -414,19 +418,37 @@ fieldset {
 	justify-content: space-around;
 	padding: 10px;
 	cursor: pointer;
-	border-radius: 50%;
-	transition: background-color 0.1s ease;
+	background: linear-gradient(#85b2c0, #db8f8f);
+	border: 1px solid var(--color-white);
+	transition: border 0.1s ease;
+	display: none;
+}
+
+.burger.visible {
+	display: flex;
 }
 
 .burger:hover {
-	background-color: rgba(255, 255, 255, 0.1);
-	transition: background-color 0.1s ease;
+	border: 1px solid var(--color-yellow);
+	transition: border 0.1s ease;
 }
 
 .burger span {
 	width: 100%;
 	height: 3px;
 	background-color: #fff;
+	position: relative;
+	margin-left: 2px;
+
+	&::before {
+		content: '';
+		position: absolute;
+		left: -5px;
+		top: 0;
+		width: 3px;
+		height: 3px;
+		background-color: #fff;
+	}
 }
 
 .dialog::backdrop {
@@ -434,13 +456,14 @@ fieldset {
 }
 
 .dialog {
-	max-width: 1200px;
-	max-height: 800px;
+	width: 100%;
+	max-width: 1400px;
 	margin: auto;
 	padding: 0;
 	outline: none;
 	border: none;
-	padding: 40px 20px;
+	padding: 2rem;
+	background: linear-gradient(#85b2c0, #db8f8f);
 
 	& .dialog-title {
 		text-align: center;
@@ -452,15 +475,14 @@ fieldset {
 
 .dialog-content {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	grid-template-rows: 1fr 200px;
-	column-gap: 6px;
-	row-gap: 8px;
+	grid-template-columns: auto 1fr;
+	grid-template-rows: 1fr auto;
+	gap: 8px;
 }
 
 .dialog-image {
 	box-shadow: var(--text-shadow);
-	max-width: 400px;
+	max-width: 500px;
 	background: linear-gradient(-45deg, #ccc, #fff);
 }
 
@@ -470,17 +492,10 @@ fieldset {
 	background: linear-gradient(45deg, #ccc, #fff);
 }
 
-.dialog-chat {
-	height: 200px;
-	grid-column: 1/4;
-	box-shadow: var(--text-shadow);
-	background: linear-gradient(180deg, #ccc, #fff);
-}
-
 .options {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	gap: 20px;
+	gap: 10px;
 	padding: 0 20px;
 	& .dialog-title {
 		grid-column: 1/4;
@@ -490,7 +505,7 @@ fieldset {
 .options-keyboard {
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
+	gap: 1rem;
 
 	& .key {
 		width: 100%;
@@ -528,4 +543,69 @@ fieldset {
 
 .key-title {
 	text-transform: uppercase;
+}
+
+.dialog-chat {
+	max-height: 360px;
+	grid-column: 1/4;
+	box-shadow: var(--text-shadow);
+	background: linear-gradient(180deg, #ccc, #fff);
+}
+
+.chat-list {
+	height: 250px;
+	padding: 10px 20px;
+	overflow-y: scroll;
+	display: flex;
+	flex-direction: column-reverse;
+	gap: 20px;
+	border: 6px solid #c3c3c3;
+}
+
+.chat-message {
+	padding: 10px 20px;
+	width: 70%;
+	height: max-content;
+	background-color: var(--color-white);
+	border-radius: 10px;
+	align-self: flex-end;
+	& .chat-message-user {
+		font-weight: bold;
+		line-height: 1.8;
+		text-transform: uppercase;
+	}
+}
+
+.chat-message.active {
+	align-self: flex-start;
+	color: var(--color-white);
+	background-color: #1c9bef;
+}
+
+.chat-form {
+	display: flex;
+	padding: 10px 20px;
+	gap: 10px;
+	background-color: #fff;
+	box-shadow: var(--text-shadow);
+}
+
+.chat-form .btn {
+	width: 140px;
+	background-color: var(--color-yellow);
+	border: none;
+	cursor: pointer;
+	box-shadow: var(--text-shadow);
+}
+
+.chat-message-body {
+	display: flex;
+	flex-direction: column;
+
+	gap: 6px;
+}
+
+.chat-message-body-time {
+	align-self: flex-end;
+	justify-content: flex-end;
 }

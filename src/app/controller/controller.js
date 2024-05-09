@@ -12,8 +12,16 @@ export class Controller {
 
 		this.#state = {
 			controls: {
-				[ControlKeys.ENTER]: () => this.#gameBoard.assignGamePlay(),
+				[ControlKeys.ENTER]: () => this.#start(),
 			},
+		}
+	}
+
+	#start() {
+		const dialog = document.querySelector('.dialog')
+
+		if (!dialog.open) {
+			this.#gameBoard.assignGamePlay()
 		}
 	}
 
@@ -22,11 +30,9 @@ export class Controller {
 			this.#state.controls[evt.code]()
 			return
 		}
-
 		if (this.#gameBoard.status !== GameStatus.START) {
 			return
 		}
-
 		this.#personController.onKeyDown(evt.code)
 	}
 
@@ -34,7 +40,6 @@ export class Controller {
 		if (this.#gameBoard.status !== GameStatus.START) {
 			return
 		}
-
 		this.#personController.onKeyUp(evt.code)
 	}
 }

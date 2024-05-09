@@ -5,6 +5,7 @@ import { Application } from 'pixi.js'
 import { GameBoardAssets } from '../../game-board.assets'
 import GameBoard from '../../game-board'
 import { Controller } from '../../controller/controller'
+import { Chat } from '../../chat'
 
 export class PrimaryForm {
 	#node = null
@@ -161,20 +162,26 @@ export class PrimaryForm {
 		const gameBoard = new GameBoard(this.#app, this.#state, this.#api)
 		await assets.init()
 		await gameBoard.init(assets, this.#state)
-
 		this.#app.ticker.speed = 1
-
 		const rootController = new Controller(gameBoard)
 		this.#app.ticker.add(gameBoard.update, gameBoard)
 		this.#node.appendChild(this.#app.canvas)
 		document.addEventListener('keydown', evt => rootController.onKeyDown(evt))
 		document.addEventListener('keyup', evt => rootController.onKeyUp(evt))
 		const burgerBtn = document.querySelector('.burger')
+		burgerBtn.classList.add('visible')
 		burgerBtn.addEventListener('click', () => gameBoard.pause())
-
 		const count = await this.#api.getTotalCount()
 		const countText = document.querySelector('.count-text')
 		countText.classList.add('visible')
 		countText.textContent = `Кол-во пользователей: ${count}`
+		const chat = new Chat(this.#state)
+		chat.init()
+
+		document.addEventListener('visibilitychange', () => {
+			if (document.hidden) {
+				gameBoard.pause()
+			}
+		})
 	}
 }
