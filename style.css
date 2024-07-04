@@ -21,9 +21,6 @@ ul {
 }
 
 body {
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	width: 100vw;
 	height: 100vh;
 	position: relative;
@@ -63,15 +60,15 @@ body {
 .footer-count p::before {
 	content: ' ';
 	position: absolute;
-	left: -8px;
+	left: -10px;
 	top: 5px;
-	width: 5px;
-	height: 5px;
+	width: 4px;
+	height: 4px;
 	border-radius: 50%;
 }
 
 .footer-count p:nth-child(1)::before {
-	background: #008100;
+	background: #698100;
 }
 
 .footer-count p:nth-child(2)::before {
@@ -131,18 +128,17 @@ fieldset {
 
 .form.error::after {
 	position: absolute;
-	bottom: -42px;
+	bottom: -28px;
 	left: 0;
 	right: 0;
 	margin: auto;
 	content: 'Ошибка';
 	width: inherit;
-	height: 40px;
+	height: 24px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	background: inherit;
-	border-radius: 0 0 10px 10px;
 }
 
 .profile-form {
@@ -447,6 +443,23 @@ fieldset {
 	}
 }
 
+.burger.active::before {
+	content: attr(data-count);
+	position: absolute;
+	left: -16px;
+	top: -16px;
+	border-radius: 50%;
+	background-color: #1c9bef;
+	font-size: 10px;
+	width: 18px;
+	height: 18px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-shadow: var(--text-shadow);
+	color: var(--color-white);
+}
+
 .dialog::backdrop {
 	background-color: rgba(0, 0, 0, 0.8);
 }
@@ -478,7 +491,7 @@ fieldset {
 
 .dialog-image {
 	box-shadow: var(--text-shadow);
-	max-width: 500px;
+	max-width: 340px;
 	background: linear-gradient(-45deg, #ccc, #fff);
 }
 
@@ -549,18 +562,18 @@ fieldset {
 }
 
 .chat-list {
-	height: 250px;
+	height: 260px;
 	padding: 10px 20px;
 	overflow-y: scroll;
 	display: flex;
 	flex-direction: column-reverse;
-	gap: 20px;
+	gap: 1rem;
 	border: 6px solid #c3c3c3;
 }
 
 .chat-message {
-	padding: 10px 20px;
-	width: 70%;
+	padding: 10px;
+	width: 60%;
 	height: max-content;
 	background-color: var(--color-white);
 	border-radius: 10px;
@@ -597,7 +610,6 @@ fieldset {
 .chat-message-body {
 	display: flex;
 	flex-direction: column;
-
 	gap: 6px;
 }
 
@@ -609,4 +621,116 @@ fieldset {
 .chat-message-body-text {
 	max-width: inherit;
 	overflow-wrap: break-word;
+}
+
+.content {
+	max-width: 1440px;
+	width: 100%;
+	margin: 0 auto;
+	height: 100vh;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	place-items: center;
+	perspective: 1000px;
+}
+
+.content-block {
+	transform: rotateY(30deg);
+}
+
+.primary-view {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	padding: 60px;
+}
+
+.content__description {
+	line-height: 20px;
+	font-size: 14px;
+	color: #212174;
+	text-shadow: var(--color-yellow) 0px 0px 4px;
+	padding: 12px 0 0 0;
+}
+
+.content__title {
+	text-transform: uppercase;
+	color: var(--color-red);
+	text-shadow: var(--text-shadow);
+	text-align: center;
+	font-size: 40px;
+}
+
+.primary-view__image {
+	animation: primary 2s linear infinite;
+	max-width: 120px;
+}
+
+.copyright a {
+	color: var(--color-white);
+	text-decoration: none;
+
+	&:hover {
+		opacity: 0.7;
+	}
+}
+
+@keyframes primary {
+	0% {
+		transform: translateY(0%);
+	}
+	50% {
+		transform: translateY(10%);
+	}
+	100% {
+		transform: translateY(0%);
+	}
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	border: 0;
+	padding: 0;
+	white-space: nowrap;
+	clip-path: inset(100%);
+	clip: rect(0 0 0 0);
+	overflow: hidden;
+}
+
+.dialog-form {
+	display: flex;
+	justify-content: center;
+	gap: 30px;
+	align-items: center;
+	padding: 10px;
+	& label {
+		display: block;
+		width: 40px;
+		height: 40px;
+		background-color: #1c9bef;
+		border-radius: 4px;
+		cursor: pointer;
+	}
+
+	& label:has(input:disabled) {
+		opacity: 0.4;
+		cursor: auto;
+	}
+
+	& label:has(input:checked) {
+		background-color: gold;
+	}
+}
+
+.player-count {
+	text-align: center;
+	margin-top: 2rem;
+	color: var(--color-yellow);
+	text-shadow: var(--text-shadow);
 }

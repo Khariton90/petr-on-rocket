@@ -1,6 +1,5 @@
+import { BASE_URL } from '../app/app.constants'
 import { deleteAccount, getAccount, setAccount } from './local-storage'
-
-const BASE_URL = 'http://localhost:3000/api'
 
 const Method = {
 	GET: 'GET',
@@ -18,7 +17,7 @@ export class ApiServices {
 	#baseUrl
 
 	constructor(url) {
-		this.#baseUrl = BASE_URL
+		this.#baseUrl = `${BASE_URL}/api`
 	}
 
 	async createUser(dto) {

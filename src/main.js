@@ -5,6 +5,9 @@ import gsap from 'gsap'
 import PixiPlugin from 'gsap/PixiPlugin'
 gsap.registerPlugin(PixiPlugin)
 
+const dialogOptions = document.querySelector('.dialog-options')
+const form = document.querySelector('.dialog-form')
+
 const api = new ApiServices()
 const root = document.querySelector('.app')
 const app = new App(root, api)
@@ -16,4 +19,26 @@ gsap.to(preloader, {
 	onComplete: () => {
 		app.init()
 	},
+})
+
+window.addEventListener(
+	'wheel',
+	e => {
+		if (e.ctrlKey) {
+			e.preventDefault()
+		}
+	},
+	{ passive: false }
+)
+
+const text = {
+	1: 'Управление',
+	2: 'Статистика',
+	3: 'Магазин',
+	4: 'Онлайн',
+}
+
+form.addEventListener('change', function (e) {
+	dialogOptions.querySelector('.dialog-title').textContent =
+		text[e.target.value]
 })

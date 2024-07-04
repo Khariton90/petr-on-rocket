@@ -156,7 +156,7 @@ export default class GameBoard {
 	}
 
 	async #setLevelComplete(delta) {
-		this.#level.update(this.#speed)
+		// this.#level.update(this.#speed)
 		this.#person.setCompleted()
 		this.#scene.update(delta)
 
@@ -187,20 +187,12 @@ export default class GameBoard {
 			return
 		}
 
-		this.#flour.update()
+		// this.#flour.update()
 		this.#person.update()
 
 		this.#scene.deleteObstacle()
-		this.#scene.update(delta)
-
-		if (testForAABB(this.#person, this.#flour)) {
-			this.#person.y = this.#person.prevPosition.y
-			this.#person.jump()
-		}
-
-		if (testForAABB(this.#person, this.#roof)) {
-			this.#person.y = this.#person.prevPosition.y
-		}
+		this.#scene.update()
+		this.#level.update(this.#speed)
 
 		const obstacleList = this.#scene.obstacleList
 		const sceneX = this.#scene.xPosition
@@ -212,7 +204,16 @@ export default class GameBoard {
 			this.#setGameOver(rocket, human, obstacle.topBottom)
 		})
 
-		this.#level.update(this.#speed)
+		// this.#level.update(this.#speed)
+
+		if (testForAABB(this.#person, this.#flour)) {
+			this.#person.y = this.#person.prevPosition.y
+			this.#person.jump()
+		}
+
+		if (testForAABB(this.#person, this.#roof)) {
+			this.#person.y = this.#person.prevPosition.y
+		}
 
 		if (!obstacleList.length) {
 			this.#completed = true

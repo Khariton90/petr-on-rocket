@@ -72,8 +72,8 @@ export class Scene extends Container {
 		)
 	}
 
-	update(delta) {
-		this.x -= this.#speed * delta
+	update() {
+		this.x -= this.#speed
 	}
 
 	setInitial() {

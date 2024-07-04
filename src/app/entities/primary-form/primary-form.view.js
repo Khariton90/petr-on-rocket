@@ -1,7 +1,11 @@
 import { getCutName } from '../../../utils'
 import { FormEnum } from '../../app.constants'
+import image from '../../../../assets/person/person-234.avif'
 
-const createLoginFormTemplate = () => `<form class="form"  autocomplete="off">
+const createLoginFormTemplate = () => `<div class="content">
+	<div class="content-block">
+	<h1 class="content__title">Петя на ракете</h1>
+	<form class="form"  autocomplete="off">
 				<h2 class="form-title">Вход</h2>
 				<fieldset>
 					<label for="login-nickname">
@@ -33,12 +37,38 @@ const createLoginFormTemplate = () => `<form class="form"  autocomplete="off">
 				</fieldset>
 
 				<a href="/sign-up" data-link="register" class="register-link form-link">Создать аккаунт</a>
-			</form>`
+			</form>
+			<h3 class="player-count"></h3>
+	</div>
+			<div class="primary-view">
+				<div class="primary-view__image">
+					<img src="${image}">
+				</div>
+
+					<p class="content__description">
+					Игра «Петя на ракете» — это захватывающее приключение, где ваша цель — собирать монетки (Петкоины) и набирать очки. 
+					Повышая уровень, вы будете открывать новые возможности и становиться сильнее.
+					При этом состязаясь с другими игроками по количеству набранных очков.
+				</p>
+				<p class="content__description">
+					В игре вас ждут разнообразные уровни, каждый из которых представляет собой уникальную головоломку или испытание. Вам придётся использовать логику, реакцию и умение быстро принимать решения, чтобы успешно пройти все уровни и собрать максимальное количество монеток.
+				</p>
+				<p class="content__description">
+					По мере прохождения игры вы сможете улучшать своего персонажа, увеличивая его силу, ловкость и выносливость. Это позволит вам справляться с более сложными испытаниями и быстрее достигать новых уровней. 
+					Также вы можете общаться с другими игроками в игровом чате.
+				</p>
+				<p class="content__description">
+					«Петя на ракете» — это отличный способ провести время, развить свои навыки и просто насладиться увлекательным игровым процессом. Присоединяйтесь к десяткам игроков и начните своё путешествие по сбору монеток уже сегодня!
+				</p>
+			</div>
+</div>`
 
 const createRegisterFormTemplate = () => `
+<div class="content">
+		<div class="content-block">
+			<h1 class="content__title">Петя на ракете</h1>
 			<form class="form" autocomplete="off">
 				<h2 class="form-title">Новый игрок</h2>
-
 				<fieldset>
 					<label for="signup-nickname">
 						Имя игрока
@@ -51,12 +81,34 @@ const createRegisterFormTemplate = () => `
                             id="signup-nickname"
 						/>
 					</label>
-
 					<button class="button">Создать</button>
 				</fieldset>
-
 				<a href="/sign-in" data-link="login" class="login-link form-link">Перейти к логину</a>
-			</form>`
+			</form>
+			<h3 class="player-count"></h3>
+		</div>
+		<div class="primary-view">
+				<div class="primary-view__image">
+						<img src="${image}">
+				</div>
+					<p class="content__description">
+						Регистрация в игре позволит вам создать свой профиль и получить уникальный идентификатор. 
+						Он понадобится для авторизации на других устройствах, чтобы вы могли продолжать играть, даже если смените компьютер.
+				</p>
+				<p class="content__description">
+					При регистрации укажите ваше имя, которое станет вашим игровым никнеймом. Также вы можете настроить дополнительные параметры вашего профиля.
+				</p>
+				<p class="content__description">
+					После завершения регистрации вы автоматически попадаете в меню профиля в котором отображается ваш никнейм и уникальный идентификатор. 
+				</p>
+
+				<p class="content__description">
+					Вам откроется доступ к статистике десяти лучших пользователей. 
+					Также вы получаете доступ к игровому чату для общения с другими игроками.
+				</p>
+			</div>
+			</div>
+			`
 
 const createProfileForm = ({ user, stats }) => {
 	const list = stats.length
@@ -74,10 +126,13 @@ const createProfileForm = ({ user, stats }) => {
 		: []
 
 	return `
-			<form class="form profile-form" autocomplete="off">
-				<fieldset class="form-tabs">
-					<label for="profile">
-						ПРОФИЛЬ
+			<div class="content">
+			<div class="content-block">
+				<h1 class="content__title">Петя на ракете</h1>
+				<form class="form profile-form" autocomplete="off">
+					<fieldset class="form-tabs">
+						<label for="profile">
+							ПРОФИЛЬ
 						<input
 							type="radio"
 							class="profile"
@@ -141,7 +196,32 @@ const createProfileForm = ({ user, stats }) => {
 				</fieldset>
 
 				<a href="/logout" data-link="logout" class="form-link">Выход</a>
-			</form>`
+			</form>
+			<h3 class="player-count"></h3>
+			</div>
+		<div class="primary-view">
+				<div class="primary-view__image">
+						<img src="${image}">
+				</div>
+
+					<p class="content__description">
+					Игра «Петя на ракете» — это захватывающее приключение, где ваша цель — собирать монетки (Петкоины) и набирать очки. 
+					Повышая уровень, вы будете открывать новые возможности и становиться сильнее.
+					При этом состязаясь с другими игроками по количеству набранных очков.
+				</p>
+				<p class="content__description">
+					В игре вас ждут разнообразные уровни, каждый из которых представляет собой уникальную головоломку или испытание. Вам придётся использовать логику, реакцию и умение быстро принимать решения, чтобы успешно пройти все уровни и собрать максимальное количество монеток.
+				</p>
+				<p class="content__description">
+					По мере прохождения игры вы сможете улучшать своего персонажа, увеличивая его силу, ловкость и выносливость. Это позволит вам справляться с более сложными испытаниями и быстрее достигать новых уровней. 
+					Также вы можете общаться с другими игроками в игровом чате.
+				</p>
+				<p class="content__description">
+					«Петя на ракете» — это отличный способ провести время, развить свои навыки и просто насладиться увлекательным игровым процессом. Присоединяйтесь к десяткам игроков и начните своё путешествие по сбору монеток уже сегодня!
+				</p>
+			</div>
+			</div>
+	`
 }
 
 export class PrimaryFormView {
@@ -161,8 +241,9 @@ export class PrimaryFormView {
 		const countText = document.querySelector('.count-text')
 		const copyright = document.querySelector('.copyright')
 		footer.classList.add('visible')
-		countText.textContent = `Кол-во пользователей: ${count}`
-		copyright.textContent = '(C) Разработал Харитонов Евгений'
+		countText.textContent = `Всего пользователей: ${count}`
+		copyright.innerHTML =
+			'<a href="https://github.com/Khariton90" target="_blank">© Разработал Харитонов Евгений</a>'
 	}
 
 	onOpenModal() {

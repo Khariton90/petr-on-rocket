@@ -1,5 +1,5 @@
 import { Container, Graphics } from 'pixi.js'
-import { INTERVAL, SPEED } from '../../app.constants.js'
+import { INTERVAL } from '../../app.constants.js'
 import { getPipeSizePair, testForAABB } from '../../../utils.js'
 import Obstacle from './obstacle.js'
 import { Coin } from '../coin/coin.js'
@@ -20,6 +20,8 @@ export default class ObstacleContainer extends Container {
 		x: 0,
 		y: 0,
 	}
+
+	#isCompleted = false
 
 	constructor(size, position, assets, scoreBoard) {
 		super()
@@ -65,7 +67,8 @@ export default class ObstacleContainer extends Container {
 			return
 		}
 
-		if (testForAABB(person, this.#coin)) {
+		if (testForAABB(person, this.#coin) && !this.#isCompleted) {
+			this.#isCompleted = true
 			this.#setCoinAnimation()
 			this.#setPoint()
 		}
@@ -91,7 +94,7 @@ export default class ObstacleContainer extends Container {
 		gsap.to(this.#coin, {
 			x: this.#scoreBoard.coinX,
 			y: this.#scoreBoard.coinY,
-			duration: 0.6,
+			duration: 0.4,
 			onComplete: () => this.removeChild(this.#coin),
 		})
 	}

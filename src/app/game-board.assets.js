@@ -1,13 +1,13 @@
 import { Assets, Spritesheet } from 'pixi.js'
-import first_2 from '../../assets/tilingsprites/second_2-1600.webp'
-import first_7 from '../../assets/tilingsprites/second_7-1440.webp'
-import person from '../../assets/person/person-234.webp'
-import boost from '../../assets/person/boost-234.webp'
-import boom from '../../assets/person/boom-234.webp'
-import obstacle from '../../assets/tilingsprites/obstacle-110.webp'
+import first_2 from '../../assets/tilingsprites/spb-neva-1920.avif'
+// import first_7 from '../../assets/tilingsprites/second_7-1440.webp'
+import person from '../../assets/person/person-234.avif'
+import boost from '../../assets/person/boost-234.avif'
+import boom from '../../assets/person/boom-234.avif'
+import obstacle from '../../assets/tilingsprites/obstacle-55.avif'
 import coinJson from '../../assets/coins.json'
 import image from '../../assets/coins.png'
-import floorImage from '../../assets/tilingsprites/floor-40.webp'
+import floorImage from '../../assets/tilingsprites/floor-40.avif'
 
 export class GameBoardAssets {
 	#dialog = []
@@ -20,7 +20,7 @@ export class GameBoardAssets {
 	async init() {
 		this.#spritesheet = new Spritesheet(await Assets.load(image), coinJson)
 		await this.spritesheet.parse()
-		this.#level = await this.#loadAssets(first_2, first_7)
+		this.#level = await this.#loadAssets(first_2)
 		this.floor = await this.#loadAssets(floorImage)
 		this.#person = await this.#loadAssets(person, boom, boost, obstacle)
 		this.#dialog = await this.#loadAssets(person)

@@ -19,6 +19,7 @@ export class PrimaryForm {
 	#state = {
 		statistic: [],
 		user: null,
+		count: 0,
 	}
 
 	#app = null
@@ -94,6 +95,7 @@ export class PrimaryForm {
 
 	#profile = async data => {
 		const stats = await this.#api.getStatistic()
+		this.#state.count = await this.#api.getTotalCount()
 		const profileData = {
 			user: { ...data },
 			stats,
@@ -150,12 +152,20 @@ export class PrimaryForm {
 		this.#node.replaceChildren()
 	}
 
-	#createTemplate(template) {
+	async #createTemplate(template) {
 		this.#node.innerHTML = template
 		this.#form = this.#node.querySelector('.form')
 		this.#link = this.#node.querySelector('.form-link')
 		this.#form.addEventListener('submit', this.setHandleSubmit)
 		this.#link.addEventListener('click', this.setHandleChangeForm)
+
+		if (!this.#state.count) {
+			this.#state.count = await this.#api.getTotalCount()
+		}
+
+		this.#node.querySelector(
+			'.player-count'
+		).textContent = `Зарегистрировано: ${this.#state.count}`
 	}
 
 	#render = async () => {
@@ -170,15 +180,18 @@ export class PrimaryForm {
 		this.#node.appendChild(this.#app.canvas)
 		document.addEventListener('keydown', evt => rootController.onKeyDown(evt))
 		document.addEventListener('keyup', evt => rootController.onKeyUp(evt))
-		burger.classList.add('visible')
-		burger.addEventListener('click', () => {
-			gameBoard.pause()
-			this.#view.onOpenModal()
-		})
+
 		const count = await this.#api.getTotalCount()
 		this.#view.setCountText(count)
 		const chat = new Chat(this.#state)
 		chat.init()
+
+		burger.classList.add('visible')
+		burger.addEventListener('click', () => {
+			gameBoard.pause()
+			this.#view.onOpenModal()
+			chat.resetCount()
+		})
 		document.addEventListener('visibilitychange', () => {
 			if (document.hidden) {
 				gameBoard.pause()
