@@ -36,18 +36,43 @@
 					<img src="./assets/avatar-400.webp" alt="avatar" />
 					<form class="dialog-form">
 						<label for="1">
+							<svg
+								class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-18wq8ra"
+								focusable="false"
+								aria-hidden="true"
+								viewBox="0 0 24 24"
+								data-testid="GamepadIcon"
+								tabindex="-1"
+								title="Gamepad"
+							>
+								<path
+									d="M15 7.5V2H9v5.5l3 3zM7.5 9H2v6h5.5l3-3zM9 16.5V22h6v-5.5l-3-3zM16.5 9l-3 3 3 3H22V9z"
+								></path>
+							</svg>
 							<input
-								disabled
 								class="visually-hidden"
 								type="radio"
 								name="dialog-opt"
 								id="1"
 								value="1"
+								checked
 							/>
 						</label>
 						<label for="2">
+							<svg
+								class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-18wq8ra"
+								focusable="false"
+								aria-hidden="true"
+								viewBox="0 0 24 24"
+								data-testid="QueryStatsIcon"
+								tabindex="-1"
+								title="QueryStats"
+							>
+								<path
+									d="M19.88 18.47c.44-.7.7-1.51.7-2.39 0-2.49-2.01-4.5-4.5-4.5s-4.5 2.01-4.5 4.5 2.01 4.5 4.49 4.5c.88 0 1.7-.26 2.39-.7L21.58 23 23 21.58zm-3.8.11c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5m-.36-8.5c-.74.02-1.45.18-2.1.45l-.55-.83-3.8 6.18-3.01-3.52-3.63 5.81L1 17l5-8 3 3.5L13 6zm2.59.5c-.64-.28-1.33-.45-2.05-.49L21.38 2 23 3.18z"
+								></path>
+							</svg>
 							<input
-								disabled
 								class="visually-hidden"
 								type="radio"
 								name="dialog-opt"
@@ -56,8 +81,20 @@
 							/>
 						</label>
 						<label for="3">
+							<svg
+								class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-18wq8ra"
+								focusable="false"
+								aria-hidden="true"
+								viewBox="0 0 24 24"
+								data-testid="StoreIcon"
+								tabindex="-1"
+								title="Store"
+							>
+								<path
+									d="M20 4H4v2h16zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6zm-9 4H6v-4h6z"
+								></path>
+							</svg>
 							<input
-								disabled
 								class="visually-hidden"
 								type="radio"
 								name="dialog-opt"
@@ -66,8 +103,20 @@
 							/>
 						</label>
 						<label for="4">
+							<svg
+								class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-18wq8ra"
+								focusable="false"
+								aria-hidden="true"
+								viewBox="0 0 24 24"
+								data-testid="AccountBoxIcon"
+								tabindex="-1"
+								title="AccountBox"
+							>
+								<path
+									d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6m7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58z"
+								></path>
+							</svg>
 							<input
-								disabled
 								class="visually-hidden"
 								type="radio"
 								name="dialog-opt"
@@ -77,39 +126,41 @@
 						</label>
 					</form>
 				</div>
-				<div class="dialog-options options">
-					<h2 class="dialog-title">Управление</h2>
-					<div class="options-keyboard">
-						<div class="key">
-							<div class="key-btn">A</div>
-							<p class="key-title">Влево</p>
-						</div>
-						<div class="key">
-							<div class="key-btn">D</div>
-							<p class="key-title">Вправо</p>
-						</div>
-						<div class="key">
-							<div class="key-btn">Пробел</div>
-							<p class="key-title">Вверх</p>
-						</div>
+				<div class="dialog-container">
+					<div class="dialog-options options">
+						<h2 class="dialog-title">Управление</h2>
+						<div class="options-keyboard">
+							<div class="key">
+								<div class="key-btn">A</div>
+								<p class="key-title">Влево</p>
+							</div>
+							<div class="key">
+								<div class="key-btn">D</div>
+								<p class="key-title">Вправо</p>
+							</div>
+							<div class="key">
+								<div class="key-btn">Пробел</div>
+								<p class="key-title">Вверх</p>
+							</div>
 
-						<div class="key">
-							<div class="key-btn enter">Enter</div>
-							<p class="key-title">старт/пауза</p>
+							<div class="key">
+								<div class="key-btn enter">Enter</div>
+								<p class="key-title">старт/пауза</p>
+							</div>
 						</div>
-					</div>
-					<div class="options-keyboard">
-						<div class="key">
-							<div class="key-btn">&#9668;</div>
-							<p class="key-title">Влево</p>
-						</div>
-						<div class="key">
-							<div class="key-btn">&#9658;</div>
-							<p class="key-title">Вправо</p>
-						</div>
-						<div class="key">
-							<div class="key-btn">&#9650;</div>
-							<p class="key-title">Вверх</p>
+						<div class="options-keyboard">
+							<div class="key">
+								<div class="key-btn">&#9668;</div>
+								<p class="key-title">Влево</p>
+							</div>
+							<div class="key">
+								<div class="key-btn">&#9658;</div>
+								<p class="key-title">Вправо</p>
+							</div>
+							<div class="key">
+								<div class="key-btn">&#9650;</div>
+								<p class="key-title">Вверх</p>
+							</div>
 						</div>
 					</div>
 				</div>

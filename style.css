@@ -2,7 +2,9 @@
 	--color-red: #ed1c24;
 	--color-white: #fff;
 	--color-yellow: #ffcc33;
+	--color-blue: #1c9bef;
 	--text-shadow: #333 0px 1px 4px;
+	--border-radius: 4px;
 }
 
 * {
@@ -480,7 +482,7 @@ fieldset {
 	left: -16px;
 	top: -16px;
 	border-radius: 50%;
-	background-color: #1c9bef;
+	background-color: var(--color-blue);
 	font-size: 10px;
 	width: 18px;
 	height: 18px;
@@ -526,10 +528,11 @@ fieldset {
 	background: linear-gradient(-45deg, #ccc, #fff);
 }
 
-.dialog-options {
+.dialog-container {
 	grid-column: 2/4;
 	box-shadow: var(--text-shadow);
 	background: linear-gradient(45deg, #ccc, #fff);
+	padding: 10px 20px;
 }
 
 .options {
@@ -567,7 +570,7 @@ fieldset {
 	align-items: center;
 	position: relative;
 	box-shadow: var(--text-shadow);
-	border-radius: 4px;
+	border-radius: var(--border-radius);
 	background-color: var(--color-white);
 
 	&::after {
@@ -607,7 +610,7 @@ fieldset {
 	width: 60%;
 	height: max-content;
 	background-color: var(--color-white);
-	border-radius: 10px;
+	border-radius: var(--border-radius);
 	align-self: flex-end;
 	& .chat-message-user {
 		font-weight: bold;
@@ -619,7 +622,7 @@ fieldset {
 .chat-message.active {
 	align-self: flex-start;
 	color: var(--color-white);
-	background-color: #1c9bef;
+	background-color: var(--color-blue);
 }
 
 .chat-form {
@@ -744,9 +747,18 @@ fieldset {
 		display: block;
 		width: 40px;
 		height: 40px;
-		background-color: #1c9bef;
-		border-radius: 4px;
+		background-color: var(--color-blue);
+		border-radius: var(--border-radius);
 		cursor: pointer;
+		padding: 8px;
+	}
+
+	& svg {
+		fill: var(--color-white);
+		box-shadow: var(--text-shadow);
+		&:focus {
+			outline: none;
+		}
 	}
 
 	& label:has(input:disabled) {
@@ -755,7 +767,7 @@ fieldset {
 	}
 
 	& label:has(input:checked) {
-		background-color: gold;
+		background-color: #dfc222;
 	}
 }
 
@@ -764,4 +776,118 @@ fieldset {
 	margin-top: 2rem;
 	color: var(--color-yellow);
 	text-shadow: var(--text-shadow);
+}
+
+.store {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.store-list {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+	width: 100%;
+	height: 300px;
+	margin: 10px 0;
+}
+
+.store-item {
+	position: relative;
+	flex: 1;
+	height: 100%;
+	background: linear-gradient(-45deg, var(--color-blue), #212174);
+	box-shadow: var(--text-shadow);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	padding: 10px;
+	border-radius: var(--border-radius);
+	overflow: hidden;
+}
+
+.store-card__lock {
+	position: absolute;
+	display: none;
+	fill: var(--color-blue);
+	width: 160px;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.store-item.disabled {
+	& .store-card__lock {
+		display: block;
+		z-index: 1;
+	}
+	&::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(255, 255, 255, 0.6);
+	}
+}
+
+.store-balance {
+	align-self: center;
+	background: linear-gradient(-45deg, var(--color-blue), #212174);
+	padding: 6px 100px;
+	text-align: center;
+	font-weight: 600;
+	color: var(--color-white);
+	text-shadow: var(--text-shadow);
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 1.5rem;
+	border-radius: var(--border-radius);
+	& img {
+		max-width: 20px;
+	}
+}
+
+.store-card {
+	height: 240px;
+	width: 100%;
+	background: linear-gradient(-45deg, #ccc, #fff);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	& .store-card__image {
+		max-width: 160px;
+	}
+}
+
+.store-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	font-weight: bold;
+	padding: 4px 30px;
+	font-size: 1.5rem;
+	border: none;
+	cursor: pointer;
+	color: var(--color-white);
+	text-shadow: var(--text-shadow);
+	background: var(--color-red);
+	max-width: 86%;
+	width: 100%;
+	& img {
+		max-width: 20px;
+	}
+
+	&:hover {
+		box-shadow: var(--text-shadow);
+	}
 }
