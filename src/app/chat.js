@@ -30,6 +30,15 @@ export class Chat {
 		})
 	}
 
+	createUnloadMessage() {
+		const message = {
+			message: `Пользователь ${this.#state.user.nickname} вышел из игры`,
+			user: this.#state.user.nickname,
+		}
+
+		this.#socket.emit('message', message)
+	}
+
 	resetCount() {
 		this.#resetCount()
 	}

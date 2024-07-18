@@ -186,6 +186,10 @@ export class PrimaryForm {
 		const chat = new Chat(this.#state)
 		chat.init()
 
+		window.addEventListener('beforeunload', () => {
+			chat.createUnloadMessage()
+		})
+
 		burger.classList.add('visible')
 		burger.addEventListener('click', () => {
 			gameBoard.pause()

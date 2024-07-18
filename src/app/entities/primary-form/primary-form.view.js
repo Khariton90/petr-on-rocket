@@ -167,7 +167,7 @@ const createProfileForm = ({ user, stats }) => {
 						</label>
 
 						<label>
-							Максимальное кол-во очков
+							Количество очков
 							<input
 								class="field username-field"
 								type="text"

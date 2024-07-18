@@ -185,6 +185,7 @@ fieldset {
 	transition: border 0.2s ease;
 	padding: 0 6px;
 	margin: 0;
+	cursor: pointer;
 }
 
 .form-tabs label:has(input:checked) {
@@ -254,8 +255,38 @@ fieldset {
 	text-transform: uppercase;
 }
 
-.list-item__level,
-.list-item__score,
+.list-item__level {
+	position: relative;
+}
+
+.list-item__level::before {
+	content: '';
+	position: absolute;
+	left: -24px;
+	top: 1px;
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+}
+
+.list-item:nth-child(1) .list-item__level::before,
+.list-item:nth-child(2) .list-item__level::before,
+.list-item:nth-child(3) .list-item__level::before {
+	border: 1px solid #444;
+}
+
+.list-item:nth-child(1) .list-item__level::before {
+	background-color: gold;
+}
+
+.list-item:nth-child(2) .list-item__level::before {
+	background-color: silver;
+}
+
+.list-item:nth-child(3) .list-item__level::before {
+	background-color: #cd7f32;
+}
+
 .form-body__title {
 	text-align: center;
 }
