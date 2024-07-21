@@ -183,7 +183,7 @@ export class PrimaryForm {
 
 		const count = await this.#api.getTotalCount()
 		this.#view.setCountText(count)
-		const chat = new Chat(this.#state)
+		const chat = new Chat(this.#state, this.#api)
 		chat.init()
 
 		window.addEventListener('beforeunload', () => {

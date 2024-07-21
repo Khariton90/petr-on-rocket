@@ -108,6 +108,15 @@ export class ApiServices {
 		}
 	}
 
+	async getMessages(page) {
+		try {
+			const response = await fetch(`${this.#baseUrl}/messages?page=${page}`)
+			return await response.json()
+		} catch {
+			return []
+		}
+	}
+
 	#options(method, body) {
 		const options = {
 			method,

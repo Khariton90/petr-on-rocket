@@ -5,6 +5,35 @@
 	--color-blue: #1c9bef;
 	--text-shadow: #333 0px 1px 4px;
 	--border-radius: 4px;
+
+	--scrollbarBgColor: rgba(255, 255, 255, 0.2);
+	--scrollbarThumbColor: var(--color-blue);
+	--scrollbarThumbColorSecond: var(--color-blue);
+	--scrollbarWidth: 10px;
+	--scrollbarBorder: 0 solid var(--scrollbarBgColor);
+	--scrollbarBorderRadius: calc(var(--scrollbarWidth) / 2);
+}
+
+.chat-list {
+	scrollbar-width: var(--scrollbarWidth);
+	scrollbar-color: var(--scrollbarThumbColor) var(--scrollbarBgColor);
+}
+.chat-list::-webkit-scrollbar {
+	width: var(--scrollbarWidth);
+}
+.chat-list::-webkit-scrollbar-track {
+	background: var(--scrollbarBgColor);
+	border-radius: var(--scrollbarBorderRadius);
+}
+.chat-list::-webkit-scrollbar-thumb {
+	background-color: var(--scrollbarThumbColor);
+	border-radius: var(--scrollbarBorderRadius);
+	border: var(--scrollbarBorder);
+	background-image: linear-gradient(
+		180deg,
+		var(--scrollbarThumbColor) 0%,
+		var(--scrollbarThumbColorSecond) 90%
+	);
 }
 
 * {
@@ -756,6 +785,7 @@ fieldset {
 	& svg {
 		fill: var(--color-white);
 		box-shadow: var(--text-shadow);
+		transition: all 0.1s ease;
 		&:focus {
 			outline: none;
 		}
@@ -768,6 +798,12 @@ fieldset {
 
 	& label:has(input:checked) {
 		background-color: #dfc222;
+		box-shadow: var(--text-shadow);
+
+		& svg {
+			fill: var(--color-red);
+			transition: all 0.1s ease;
+		}
 	}
 }
 
@@ -890,4 +926,37 @@ fieldset {
 	&:hover {
 		box-shadow: var(--text-shadow);
 	}
+}
+
+.dialog-container {
+	position: relative;
+}
+
+.pagination {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+}
+
+.pagination-list {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+}
+
+.pagination-item {
+}
+
+.pagination-btn {
+	padding: 4px;
+}
+
+.profile-list {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	font-size: 1.8rem;
+	color: var(--color-white);
+	text-shadow: var(--text-shadow);
 }

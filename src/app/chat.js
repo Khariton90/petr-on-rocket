@@ -4,30 +4,61 @@ import { BASE_URL } from './app.constants'
 const messages = document.querySelector('#messages')
 const chatForm = document.querySelector('.chat-form')
 const messageTemplate = document.querySelector('.message-template')
+const dialog = document.querySelector('.dialog')
+const burger = document.querySelector('.burger')
 
 export class Chat {
 	#socket = null
 	#state = null
-
 	#count = 0
+	#api = null
+	#page = 0
+	#isLoading = false
+	isNothing = false
+	#messages = []
 
-	constructor(state) {
+	constructor(state, api) {
 		this.#state = state
+		this.#api = api
 	}
-	init() {
+
+	async init() {
 		this.#socket = io(BASE_URL)
 		this.#socket.on('message', data => {
 			this.#handleNewMessage(data)
 		})
-
+		await this.getMessages()
 		this.#handleWelcomeMessage()
+
 		chatForm.addEventListener('submit', this.#handleSubmitNewMessage)
 
-		messages.addEventListener('scroll', evt => {
-			if (evt.target.scrollTop === 0) {
-				this.#resetCount()
-			}
-		})
+		messages.addEventListener('scroll', evt =>
+			this.#findMessagesByScrollUp(evt)
+		)
+	}
+
+	#findMessagesByScrollUp(evt) {
+		if (evt.target.scrollTop >= 0) {
+			this.#resetCount()
+		}
+		const posTop = evt.target.scrollHeight - evt.target.clientHeight
+		if (posTop + evt.target.scrollTop <= 1 && !this.#isLoading) {
+			this.#isLoading = true
+			this.getMessages()
+			this.#resetCount()
+		}
+	}
+
+	async getMessages() {
+		const messagesList = await this.#api.getMessages(this.#page)
+		if (messagesList.length) {
+			messagesList.forEach(message =>
+				messages.append(this.#createNewMessage(message))
+			)
+
+			this.#page += 1
+		}
+		this.#isLoading = false
 	}
 
 	createUnloadMessage() {
@@ -49,8 +80,6 @@ export class Chat {
 			user: this.#state.user.nickname,
 		}
 		this.#socket.emit('message', message)
-
-		const burger = document.querySelector('.burger')
 		burger.classList.add('active')
 	}
 
@@ -68,14 +97,10 @@ export class Chat {
 
 	#handleNewMessage = message => {
 		messages.prepend(this.#createNewMessage(message))
-		const dialog = document.querySelector('.dialog')
 
 		if (messages.scrollTop >= 0) {
 			messages.scrollTo(0, 0)
-
-			if (dialog.open) {
-				this.#resetCount()
-			}
+			this.#resetCount()
 		}
 
 		if (message.user === this.#state.user.nickname) {
@@ -84,6 +109,12 @@ export class Chat {
 	}
 
 	#createNewMessage = message => {
+		this.#messages
+			.filter(item => item.id === message.id)
+			.sort((a, b) => a.createdAt < b.createdAt)
+		this.#messages.push(message)
+		this.#incCount(message)
+
 		const element = messageTemplate.content.cloneNode(true)
 		if (message.user === this.#state.user.nickname) {
 			element.querySelector('.chat-message').classList.add('active')
@@ -91,19 +122,33 @@ export class Chat {
 
 		element.querySelector('.chat-message-body-text').textContent =
 			message.message
-		element.querySelector('.chat-message-body-time').textContent =
-			new Date().toLocaleTimeString()
+		//TODO
+		element.querySelector('.chat-message-body-time').textContent = `${new Date(
+			message.createdAt
+		).toLocaleDateString()}, ${new Date(
+			message.createdAt
+		).toLocaleTimeString()}`
+
 		element.querySelector('.chat-message-user').textContent = message.user
 
+		return element
+	}
+
+	#incCount(message) {
+		if (message.user === this.#state.user.nickname) {
+			return
+		}
 		this.#count += 1
 		const burger = document.querySelector('.burger')
 		burger.classList.add('active')
 		burger.dataset.count = this.#count
-		return element
 	}
 
 	#resetCount() {
-		const burger = document.querySelector('.burger')
+		if (!dialog.open) {
+			return
+		}
+
 		burger.classList.remove('active')
 		this.#count = 0
 		burger.dataset.count = this.#count

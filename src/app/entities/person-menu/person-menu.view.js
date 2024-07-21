@@ -54,11 +54,38 @@ const createStatisticTemplate = data => {
 				.join(' ')}`
 		: []
 
+	const paginationCount = data.length > 4 ? Math.ceil(data.length / 4) : 0
+
+	const pagination = () => {
+		if (!paginationCount) {
+			return ''
+		}
+
+		const items = []
+
+		for (let i = 1; i < paginationCount; i++) {
+			items.push(i)
+		}
+
+		return items
+			.map(
+				el => `<li class="pagination-item">
+								<button type="button" class="pagination-btn">${el}</button>
+							</li>`
+			)
+			.join(' ')
+	}
+
 	return `
 					<h2 class="dialog-title">Статистика</h2>
                         <ol class="form-body__list list">
 							${list}
 						</ol>
+						<div class="pagination">
+						<ul class="pagination-list">
+							${pagination()}
+						</ul>
+					</div>
 `
 }
 
