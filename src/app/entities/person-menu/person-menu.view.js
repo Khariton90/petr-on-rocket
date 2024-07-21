@@ -116,7 +116,7 @@ const createStoreTemplate = data => {
 								</div>
 								<button type="button" disabled class="store-btn">
 									<img src="./assets/coin.png" alt="coin" />
-									<span>50</span>
+									<span>~</span>
 								</button>
 							</div>
 							<div class="store-item disabled">
@@ -146,7 +146,7 @@ const createStoreTemplate = data => {
 										src="./assets/coin.png"
 										alt="coin"
 									/>
-									<span>100</span>
+									<span>~</span>
 								</button>
 							</div>
 							<div class="store-item disabled">
@@ -176,7 +176,7 @@ const createStoreTemplate = data => {
 										src="./assets/coin.png"
 										alt="coin"
 									/>
-									<span>200</span>
+									<span>~</span>
 								</button>
 							</div>
 							<div class="store-item disabled">
@@ -202,16 +202,46 @@ const createStoreTemplate = data => {
 								</div>
 								<button type="button" disabled class="store-btn">
 									<img src="./assets/coin.png" alt="coin" />
-									<span>300</span>
+									<span>~</span>
 								</button>
 							</div>
 						</div>
 
 						<div class="store-balance">
 							<img src="./assets/coin.png" alt="coin" />
-							<span>300</span>
+							<span>~</span>
 						</div>
 					</div>`
+}
+
+const createProfileTemplate = data => {
+	return `<h2 class="dialog-title">Профиль</h2>
+				<ul class="profile-list">
+					<li class="profile-item">
+						<b>ID:</b> <span>${data.id}</span>
+					</li>
+					<li class="profile-item">
+						<label for="profile-username-field">
+							<b>Имя игрока:</b>
+							<span title="Изменить" class="profile-username">${data.nickname}</span>
+							<input
+								autocomplete="off"
+								id="profile-username-field"
+								class="visually-hidden profile-username-field"
+								type="text"
+							/>
+						</label>
+						<button
+							class="visually-hidden profile-username-btn"
+							type="button"
+						>
+						Сохранить
+					</button>
+				</li>
+				<li class="profile-item profile__level"><b>Уровень:</b>${data.level}</li>
+				<li class="profile-item profile__points"><b>Очков:</b>${data.points}</li>
+			</ul>
+`
 }
 
 export class PersonMenuView {
@@ -221,7 +251,7 @@ export class PersonMenuView {
 		1: createOptionsTemplate(),
 		2: data => createStatisticTemplate(data),
 		3: createStoreTemplate(),
-		4: createOptionsTemplate(),
+		4: data => createProfileTemplate(data),
 	}
 
 	constructor(content) {
@@ -231,7 +261,6 @@ export class PersonMenuView {
 	createTemplate(key, data) {
 		if (this.#state.hasOwnProperty(key)) {
 			this.#content.replaceChildren()
-
 			if (!data) {
 				this.#content.insertAdjacentHTML('afterbegin', this.#state[key])
 				return

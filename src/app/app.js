@@ -1,9 +1,9 @@
 import { PrimaryForm } from './entities/primary-form/primary-form'
 
 export class App {
-	#api
-	#root
-	#primaryForm
+	#api = null
+	#root = null
+	#primaryForm = null
 
 	constructor(root, api) {
 		this.#api = api

@@ -960,3 +960,44 @@ fieldset {
 	color: var(--color-white);
 	text-shadow: var(--text-shadow);
 }
+
+.profile-username {
+	cursor: pointer;
+}
+
+.profile-username-field {
+	padding: 6px 2px;
+	font-size: 1rem;
+	max-width: 240px;
+}
+
+.profile-username-btn {
+	padding: 6px;
+	background-color: var(--color-blue);
+	border: none;
+	color: var(--color-white);
+	cursor: pointer;
+
+	&:hover {
+		box-shadow: var(--text-shadow);
+	}
+}
+
+.error {
+	animation: error linear 0.2s;
+}
+
+@keyframes error {
+	0% {
+		transform: translate(-2px);
+	}
+	25% {
+		transform: translate(0);
+	}
+	50% {
+		transform: translate(2px);
+	}
+	100% {
+		transform: translate(0);
+	}
+}

@@ -12,6 +12,10 @@ import { ScoreBoard } from './entities/score-board/score-board.js'
 import { GameLevel } from './entities/level/level.js'
 import { Profile } from './entities/profile/profile.js'
 import { Scene } from './entities/scene/scene.js'
+import { PersonMenu } from './entities/person-menu/person-menu.js'
+
+const dialogOptions = document.querySelector('.dialog-container')
+const form = document.querySelector('.dialog-form')
 
 export default class GameBoard {
 	#app = null
@@ -35,6 +39,8 @@ export default class GameBoard {
 		user: null,
 	}
 
+	#personMenu = null
+
 	constructor(app, state, api) {
 		this.#app = app
 		this.#app.width = this.#screenWidth
@@ -42,6 +48,7 @@ export default class GameBoard {
 		this.#state.user = state.user
 		this.#api = api
 		this.#profile = new Profile(this.#state.user)
+		this.#personMenu = new PersonMenu(form, dialogOptions, this.#api)
 	}
 
 	get state() {
@@ -118,6 +125,8 @@ export default class GameBoard {
 		this.#person.x = PersonPositon.x
 		this.#person.y = PersonPositon.y
 		this.#app.stage.addChild(this.#profile)
+
+		this.#personMenu.init(this.#state.user, this.#profile)
 	}
 
 	update(ticker) {
@@ -156,7 +165,6 @@ export default class GameBoard {
 	}
 
 	async #setLevelComplete(delta) {
-		// this.#level.update(this.#speed)
 		this.#person.setCompleted()
 		this.#scene.update(delta)
 
@@ -186,10 +194,7 @@ export default class GameBoard {
 		if (this.#status !== GameStatus.START) {
 			return
 		}
-
-		// this.#flour.update()
 		this.#person.update()
-
 		this.#scene.deleteObstacle()
 		this.#scene.update()
 		this.#level.update(this.#speed)
@@ -203,8 +208,6 @@ export default class GameBoard {
 			obstacle.update(human, sceneX)
 			this.#setGameOver(rocket, human, obstacle.topBottom)
 		})
-
-		// this.#level.update(this.#speed)
 
 		if (testForAABB(this.#person, this.#flour)) {
 			this.#person.y = this.#person.prevPosition.y
