@@ -1,4 +1,6 @@
 import { getCutName } from '../../../utils'
+import coin from '../../../../assets/coin.png'
+import petrImage from '../../../../assets/person/person-234.avif'
 
 const createOptionsTemplate = () => `
                 <div class="dialog-options options">
@@ -81,13 +83,11 @@ const createStatisticTemplate = data => {
                         <ol class="form-body__list list">
 							${list}
 						</ol>
-						<div class="pagination">
-						<ul class="pagination-list">
-							${pagination()}
-						</ul>
-					</div>
 `
 }
+// <div class='pagination'>
+// 	<ul class='pagination-list'>${pagination()}</ul>
+// </div>
 
 const createStoreTemplate = data => {
 	return `<h2 class="dialog-title">Магазин</h2>
@@ -110,12 +110,12 @@ const createStoreTemplate = data => {
 								<div class="store-card">
 									<img
 										class="store-card__image"
-										src="./assets/person/person-234.avif"
+										src=${petrImage}
 										alt="rocket"
 									/>
 								</div>
 								<button type="button" disabled class="store-btn">
-									<img src="./assets/coin.png" alt="coin" />
+									<img src=${coin} alt="coin" />
 									<span>~</span>
 								</button>
 							</div>
@@ -136,14 +136,14 @@ const createStoreTemplate = data => {
 								<div class="store-card">
 									<img
 										class="store-card__image"
-										src="./assets/person/person-234.avif"
+										src=${petrImage}
 										alt="rocket"
 									/>
 								</div>
 								<button type="button" disabled class="store-btn">
 									<img
 										class="store-card__image"
-										src="./assets/coin.png"
+										src=${coin}
 										alt="coin"
 									/>
 									<span>~</span>
@@ -166,14 +166,14 @@ const createStoreTemplate = data => {
 								<div class="store-card">
 									<img
 										class="store-card__image"
-										src="./assets/person/person-234.avif"
+										src=${petrImage}
 										alt="rocket"
 									/>
 								</div>
 								<button type="button" disabled class="store-btn">
 									<img
 										class="store-card__image"
-										src="./assets/coin.png"
+										src=${coin}
 										alt="coin"
 									/>
 									<span>~</span>
@@ -196,19 +196,19 @@ const createStoreTemplate = data => {
 								<div class="store-card">
 									<img
 										class="store-card__image"
-										src="./assets/person/person-234.avif"
+										src=${petrImage}
 										alt="rocket"
 									/>
 								</div>
 								<button type="button" disabled class="store-btn">
-									<img src="./assets/coin.png" alt="coin" />
+									<img src=${coin} alt="coin" />
 									<span>~</span>
 								</button>
 							</div>
 						</div>
 
 						<div class="store-balance">
-							<img src="./assets/coin.png" alt="coin" />
+							<img src=${coin} alt="coin" />
 							<span>~</span>
 						</div>
 					</div>`

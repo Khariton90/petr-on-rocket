@@ -179,11 +179,11 @@ export default class GameBoard {
 			this.#state.user.level += 1
 			this.#scene.changeLevelSpeed(this.#state.user.level)
 			const user = {
-				...this.#state.user,
+				id: this.#state.user.id,
 				points: userPoints,
 				level: this.#state.user.level,
 			}
-			this.#state.user = await this.#api.updateUser(user)
+			this.#state.user = await this.#api.updateLevel(user)
 			this.#profile.update(this.#state.user)
 			this.#level.updateText(this.#state.user.level)
 			this.#scene.setInitial()
@@ -246,10 +246,11 @@ export default class GameBoard {
 
 		const user = {
 			...this.#state.user,
-			points,
+			points: points,
+			nickname: this.#personMenu.user.nickname,
 		}
 
-		this.#state.user = await this.#api.updateUser(user)
+		this.#state.user = await this.#api.updateLevel(user)
 		this.#profile.update(this.#state.user)
 	}
 

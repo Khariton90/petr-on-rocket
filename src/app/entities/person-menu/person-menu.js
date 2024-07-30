@@ -10,10 +10,15 @@ export class PersonMenu {
 	#state = {
 		user: null,
 	}
+
 	constructor(node, contentNode, api) {
 		this.#form = node
 		this.#content = contentNode
 		this.#api = api
+	}
+
+	get user() {
+		return this.#state.user
 	}
 
 	async init(user, profile) {
@@ -75,7 +80,7 @@ export class PersonMenu {
 
 		profileBtn.setAttribute('disabled', true)
 		const updatedUser = await this.#api.updateUser({
-			...this.#state.user,
+			id: this.#state.user.id,
 			nickname: profileUsernameField.value.toLowerCase(),
 		})
 

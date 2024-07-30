@@ -98,6 +98,19 @@ export class ApiServices {
 		}
 	}
 
+	async updateLevel(dto) {
+		try {
+			const response = await fetch(
+				`${this.#baseUrl}/users/update-level`,
+				this.#options(Method.POST, dto)
+			)
+			const updatedUser = await response.json()
+			return updatedUser
+		} catch (error) {
+			console.error(error.message)
+		}
+	}
+
 	async getTotalCount() {
 		try {
 			const response = await fetch(`${this.#baseUrl}/users/total`)
