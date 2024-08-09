@@ -295,27 +295,27 @@ fieldset {
 	position: absolute;
 	left: -24px;
 	top: 1px;
-	width: 14px;
-	height: 14px;
-	border-radius: 50%;
+	width: 16px;
+	height: 16px;
+}
+
+.list-item:nth-child(1) .list-item__level::before {
+	filter: grayscale(10%) drop-shadow(1px 1px 2px #ffd700);
+}
+
+.list-item:nth-child(2) .list-item__level::before {
+	filter: grayscale(100%) drop-shadow(1px 1px 2px #c0c0c0);
+}
+
+.list-item:nth-child(3) .list-item__level::before {
+	filter: grayscale(70%) drop-shadow(1px 1px 2px #cd7f32);
 }
 
 .list-item:nth-child(1) .list-item__level::before,
 .list-item:nth-child(2) .list-item__level::before,
 .list-item:nth-child(3) .list-item__level::before {
-	border: 1px solid #444;
-}
-
-.list-item:nth-child(1) .list-item__level::before {
-	background-color: gold;
-}
-
-.list-item:nth-child(2) .list-item__level::before {
-	background-color: silver;
-}
-
-.list-item:nth-child(3) .list-item__level::before {
-	background-color: #cd7f32;
+	background: url(./assets/p-coin.png) center center;
+	background-size: cover;
 }
 
 .form-body__title {

@@ -1,5 +1,5 @@
 import { getCutName } from '../../../utils'
-import coin from '../../../../assets/coin.png'
+import coin from '../../../../assets/p-coin.png'
 import petrImage from '../../../../assets/person/person-234.avif'
 
 const createOptionsTemplate = () => `

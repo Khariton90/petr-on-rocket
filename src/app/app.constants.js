@@ -65,5 +65,4 @@ export const DialogText = {
 	END: 'ПЕТЯ В ПРОЛЁТЕ',
 }
 
-// export const BASE_URL = 'http://80.249.147.49:3000'
-export const BASE_URL = 'http://localhost:3000'
+export const BASE_URL = import.meta.env.VITE_BASE_URL
