@@ -1001,3 +1001,7 @@ fieldset {
 		transform: translate(0);
 	}
 }
+
+.d-none {
+	display: none;
+}
