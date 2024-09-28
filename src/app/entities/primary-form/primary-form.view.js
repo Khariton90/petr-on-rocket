@@ -239,11 +239,8 @@ export class PrimaryFormView {
 	setCountText(count) {
 		const footer = document.querySelector('.footer')
 		const countText = document.querySelector('.count-text')
-		const copyright = document.querySelector('.copyright')
 		footer.classList.add('visible')
 		countText.textContent = `Всего пользователей: ${count}`
-		copyright.innerHTML =
-			'<a href="https://github.com/Khariton90" target="_blank">© Разработал Харитонов Евгений</a>'
 	}
 
 	onOpenModal() {

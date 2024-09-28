@@ -1,10 +1,10 @@
 import { Container, TilingSprite } from 'pixi.js'
-import { SPEED } from '../app.constants'
 
 export default class Floor extends Container {
 	#height = 40
 	#assets = null
 	$texture = null
+	#tileSpeed = 2
 
 	constructor(assets) {
 		super()
@@ -14,7 +14,7 @@ export default class Floor extends Container {
 	}
 
 	update() {
-		this.$texture.tilePosition.x -= SPEED
+		this.$texture.tilePosition.x -= this.#tileSpeed
 	}
 
 	#setTexture() {

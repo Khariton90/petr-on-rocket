@@ -198,6 +198,7 @@ export default class GameBoard {
 		this.#scene.deleteObstacle()
 		this.#scene.update()
 		this.#level.update(this.#speed)
+		this.#flour.update()
 
 		const obstacleList = this.#scene.obstacleList
 		const sceneX = this.#scene.xPosition
