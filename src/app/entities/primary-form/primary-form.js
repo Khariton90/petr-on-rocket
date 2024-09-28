@@ -8,6 +8,7 @@ import { Controller } from '../../controller/controller'
 import { Chat } from '../../chat'
 
 const burger = document.querySelector('.burger')
+const subTitle = document.querySelector('.sub-title__count')
 
 export class PrimaryForm {
 	#node = null
@@ -96,6 +97,7 @@ export class PrimaryForm {
 	#profile = async data => {
 		const stats = await this.#api.getStatistic()
 		this.#state.count = await this.#api.getTotalCount()
+		subTitle.textContent = `Пользователей ${this.#state.count}`
 		const profileData = {
 			user: { ...data },
 			stats,

@@ -66,3 +66,4 @@ export const DialogText = {
 }
 
 export const BASE_URL = import.meta.env.VITE_BASE_URL
+export const ADMIN = import.meta.env.VITE_ADMIN

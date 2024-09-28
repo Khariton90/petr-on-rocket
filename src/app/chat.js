@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client'
-import { BASE_URL } from './app.constants'
+import { BASE_URL, ADMIN } from './app.constants'
 
 const messages = document.querySelector('#messages')
 const chatForm = document.querySelector('.chat-form')
@@ -67,7 +67,9 @@ export class Chat {
 			user: this.#state.user.nickname,
 		}
 
-		this.#socket.emit('message', message)
+		if (message.user !== ADMIN) {
+			this.#socket.emit('message', message)
+		}
 	}
 
 	resetCount() {
@@ -79,8 +81,11 @@ export class Chat {
 			message: `Пользователь ${this.#state.user.nickname} вошел в игру`,
 			user: this.#state.user.nickname,
 		}
-		this.#socket.emit('message', message)
-		burger.classList.add('active')
+
+		if (message.user !== ADMIN) {
+			this.#socket.emit('message', message)
+			burger.classList.add('active')
+		}
 	}
 
 	#handleSubmitNewMessage = evt => {
@@ -122,7 +127,6 @@ export class Chat {
 
 		element.querySelector('.chat-message-body-text').textContent =
 			message.message
-		//TODO
 		element.querySelector('.chat-message-body-time').textContent = `${new Date(
 			message.createdAt
 		).toLocaleDateString()}, ${new Date(
